@@ -1,0 +1,112 @@
+{% extends "snippets/base.html" %}
+
+
+{% block content %}
+    
+   
+      <!-- partial:partials/_navbar.html -->
+    {% include "snippets/navbar.html" %}
+
+
+
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:partials/_sidebar.html -->
+
+        {% include "snippets/sidebar.html" %}
+
+     
+
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="d-xl-flex justify-content-between align-items-start">
+              <h2 class="text-dark font-weight-bold mb-2"> Overview dashboard </h2>
+              
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                {% comment %} <div class="d-sm-flex justify-content-between align-items-center transaparent-tab-border {">
+                  <ul class="nav nav-tabs tab-transparent" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link" id="home-tab" data-bs-toggle="tab" href="#" role="tab" aria-selected="true">Users</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link active" id="business-tab" data-bs-toggle="tab" href="#business-1" role="tab" aria-selected="false">Business</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="performance-tab" data-bs-toggle="tab" href="#" role="tab" aria-selected="false">Performance</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="conversion-tab" data-bs-toggle="tab" href="#" role="tab" aria-selected="false">Conversion</a>
+                    </li>
+                  </ul>
+                  <div class="d-md-block d-none">
+                    <a href="#" class="text-light p-1"><i class="mdi mdi-view-dashboard"></i></a>
+                    <a href="#" class="text-light p-1"><i class="mdi mdi-dots-vertical"></i></a>
+                  </div>
+                </div> {% endcomment %}
+                <div class="tab-content tab-transparent-content">
+                  <div class="tab-pane fade show active" id="business-1" role="tabpanel" aria-labelledby="business-tab">
+                    <div class="row">
+                      <div class="col-xl-3 col-lg-6 col-sm-6 grid-margin stretkch-card">
+                        <div class="card">
+                          <div class="card-body text-center">
+                            <h5 class="mb-2 text-dark font-weight-normal">Patients</h5>
+                            <h2 class="mb-4 text-dark font-weight-bold">932.00</h2>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xl-3 col-lg-6 col-sm-6 grid-margin ">
+                        <div class="card">
+                          <div class="card-body text-center">
+                            <h5 class="mb-2 text-dark font-weight-normal">Attendennces</h5>
+                            <h2 class="mb-4 text-dark font-weight-bold">756,00</h2>
+                            
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xl-3  col-lg-6 col-sm-6 grid-margin ">
+                        <div class="card">
+                          <div class="card-body text-center">
+                            <h5 class="mb-2 text-dark font-weight-normal">Researchers</h5>
+                            <h2 class="mb-4 text-dark font-weight-bold">100,38</h2>
+                           
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xl-3 col-lg-6 col-sm-6 grid-margin ">
+                        <div class="card">
+                          <div class="card-body text-center">
+                            <h5 class="mb-2 text-dark font-weight-normal">Childs</h5>
+                            <h2 class="mb-4 text-dark font-weight-bold">4250k</h2>
+                      
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                  
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- content-wrapper ends -->
+          <!-- partial:partials/_footer.html -->
+          <footer class="footer">
+            <div class="footer-inner-wraper">
+              <div class="d-sm-flex justify-content-center justify-content-sm-between py-2">
+                <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © <a href="" target="_blank"> </a>2024</span>
+              </div>
+            </div>
+          </footer>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+   
+
+{% endblock content %}
