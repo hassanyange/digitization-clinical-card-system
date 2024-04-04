@@ -18,9 +18,4 @@ The manual entry of medical information using paper clinical cards poses numerou
 3. Develop the system according to the design.
 4. Evaluate the usability of the clinical system in clinical centers.
 
-## Installation and Usage
-
-To install and run this project, follow these steps:
-
-1. Clone the repository:
 
