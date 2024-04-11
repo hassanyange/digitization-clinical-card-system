@@ -1,8 +1,10 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+
+from main.form import DoctorForm
 from .models import *
 from .forms import *
 
@@ -10,7 +12,7 @@ from .forms import *
 # Create your views here.
 @login_required
 def home(request):
-    
+
     return render(request, 'index.html')
 
 
@@ -28,17 +30,19 @@ def signin(request):
 
     return render(request, 'signin.html')
 
+
 def signup(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        ##check if user already exists
+        # check if user already exists
         user = User.objects.filter(username=username).exists()
         if user:
             messages.info(request, 'User already exists')
             return render(request, 'signup.html')
         else:
-            user = User.objects.create_user(username=username, password=password)
+            user = User.objects.create_user(
+                username=username, password=password)
             user.save()
             messages.info(request, 'User created successful')
             return redirect(home)
@@ -50,21 +54,44 @@ def logout_user(request):
     return redirect(home)
 
 
-##list all pattients
+# list all pattients
 @login_required()
 def patients(request):
     patients = Patient.objects.all()
-    return render(request, 'patients.html', {'patients': patients})
+    form = PatientForm()
+    if request.method == 'POST':
+        form = PatientForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Patient added successfully')
+            return redirect(patients)
+    context = {'patients': patients, 'form': form}
+    return render(request, 'patients.html', context)
 
 
-##show one patient
+# show one patient
 @login_required
 def patient(request, id):
-    patient = Patient.objects.get(id=id)
-    context = {'patient': patient}
+    patienty = Patient.objects.get(id=id)
+    pregnance_form = PregnanceForm()
+    if request.method == 'POST':
+        pregnance_form = PregnanceForm(request.POST)
+        if pregnance_form.is_valid():
+            pregnance = pregnance_form.save(commit=False)
+            pregnance.patient = patienty
+            pregnance.save()
+            messages.success(request, 'Pregnance added successfully')
+            return redirect(patient, id)
+        else:
+            messages.error(request, 'Pregnance not added')
+            return redirect(patient, id)
+
+    context = {'patient': patienty, 'pregnance_form': pregnance_form}
     return render(request, 'patient.html', context)
 
-##register new_patient
+# register new_patient
+
+
 @login_required
 def new_patient(request):
     form = PatientForm()
@@ -78,7 +105,7 @@ def new_patient(request):
     return render(request, 'new_patient.html', context)
 
 
-##edit patient
+# edit patient
 @login_required
 def edit_patient(request, id):
     patient = Patient.objects.get(id=id)
@@ -88,15 +115,72 @@ def edit_patient(request, id):
         if form.is_valid():
             form.save()
             return redirect(patients)
-        
+
     context = {'form': form}
     return render(request, 'edit_patient.html', context)
 
 
-##delete patient
+# delete patient
 @login_required
 def delete_patient(request, id):
     patient = Patient.objects.get(id=id)
     patient.delete()
     return redirect(patients)
 
+
+def doctors(request):
+    doctors = Doctor.objects.all()
+    form = DoctorForm()
+
+    if request.method == 'POST':
+        form = DoctorForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Doctor added successfully')
+            return redirect(doctors)
+    context = {'doctors': doctors, 'form': form}
+    return render(request, 'doctors.html', context)
+
+
+def pregnance(request, id):
+    pregnancey = get_object_or_404(Pregnance, id=id)
+    first_tm, _ = FirstTimePatientInfo.objects.get_or_create(pregnance=pregnancey)
+    previous_tm, _ = PreviousPregnanciesInfo.objects.get_or_create(pregnance=pregnancey)
+    labaratory_tm, _ = LabaratoryMaasurement.objects.get_or_create(pregnance=pregnancey)
+    first_pregnance_form = FirstTimePatientInfoForm(instance=first_tm)
+    previous_pregnancies_form = PreviousPregnanciesInfoForm(instance=previous_tm)
+    labaratory_info_form = LabaratoryMaasurementForm(instance=labaratory_tm)
+
+    if request.method == "POST" and 'first_pregnance_form_save' in request.POST:
+        first_pregnance_form = FirstTimePatientInfoForm(
+            request.POST, instance=first_tm)
+        if first_pregnance_form.is_valid():
+            first_pregnance_form.save()
+            messages.success(
+                request, 'First time patient info saved successfully')
+            return redirect(pregnance, id)
+
+    if request.method == "POST" and 'previous_pregnancies_form_save' in request.POST:
+        previous_pregnancies_form = PreviousPregnanciesInfoForm(
+            request.POST, instance=previous_tm)
+        if previous_pregnancies_form.is_valid():
+            previous_pregnancies_form.save()
+            messages.success(
+                request, 'Previous pregnancies info saved successfully')
+            return redirect(pregnance, id)
+
+    if request.method == "POST" and 'labaratory_info_form_save' in request.POST:
+        labaratory_info_form = LabaratoryMaasurementForm(
+            request.POST, instance=labaratory_tm)
+        if labaratory_info_form.is_valid():
+            labaratory_info_form.save()
+            messages.success(request, 'Labaratory info saved successfully')
+            return redirect(pregnance, id)
+
+    context = {
+        'pregnance': pregnancey,
+        'first_pregnance_form': first_pregnance_form,
+        'previous_pregnancies_form': previous_pregnancies_form,
+                'labaratory_info_form': labaratory_info_form
+    }
+    return render(request, 'pregnance.html', context)

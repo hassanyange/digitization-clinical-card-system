@@ -4,6 +4,7 @@ from django.db import models
 gender_choices = (("MALE", "MALE"), ("FEMALE", "FEMALE"))
 kimo_choices = (("JUU YA 150", "JUU YA 150"), ("CHINI YA 150", "CHINI YA 150"))
 ushauri = ((""))
+vyeo = (("Doctor", "Doctor"), ("Nurse", "Nurse"), ("Pharmacist", "Pharmacist"), ("Lab Technician", "Lab Technician"),)
 
 
 class Role(models.Model):
@@ -22,8 +23,8 @@ class Doctor(models.Model):
     phone_number = models.CharField(max_length=200, blank=True, null=True)
     address = models.CharField(max_length=200, blank=True, null=True)
     about = models.CharField(max_length=200, blank=True, null=True)
-    status = models.BooleanField(default=True)
-    cheo = models.ForeignKey(Role, on_delete=models.CASCADE, blank=True, null=True)
+    # status = models.BooleanField(default=True)
+    cheo = models.CharField(max_length=200, blank=True, null=True, choices=vyeo)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -42,7 +43,7 @@ class Patient(models.Model):
     password = models.CharField(max_length=50)
     image = models.ImageField(upload_to='patients', null=True, blank=True)
     jina_la_mume =   models.CharField(max_length=200, blank=True, null=True)
-    kimo = models.CharField(max_length=10, null=True,  choices=kimo_choices)
+    kimo = models.CharField(max_length=110, null=True,  choices=kimo_choices)
     kazi = models.CharField(max_length=200, blank=True, null=True)
     kijiji_au_mtaa = models.CharField(max_length=200, blank=True, null=True)
     jina_la_mwenyekiti = models.CharField(max_length=200, blank=True, null=True)
@@ -52,11 +53,12 @@ class Patient(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
-        return self.name
+        return self.jina_kamili
     
     
 class Pregnance(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    jina_la_mtoto = models.CharField(max_length=200, blank=True, null=True)
     mimba_ya_ngapi = models.IntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -72,13 +74,13 @@ class PreviousPregnanciesInfo(models.Model):
     
 class FirstTimePatientInfo(models.Model):
     pregnance = models.ForeignKey(Pregnance, on_delete=models.CASCADE)
-    chini_ya_miaka_20 = models.BooleanField()
-    miaka_10_au_zaid_tokea_mimba_ya_mwisho = models.BooleanField()
-    kajifungua_kwa_kupasuliwa = models.BooleanField()
-    kuharibika_kwa_mimba_2_au_zaidi = models.BooleanField()
-    ugonjwa_wa_moyo  = models.BooleanField()
-    kifua_kikuu = models.BooleanField()
-    kisukari  = models.BooleanField()
+    chini_ya_miaka_20 = models.BooleanField(null=True, blank=True)
+    miaka_10_au_zaid_tokea_mimba_ya_mwisho = models.BooleanField(null=True, blank=True)
+    kajifungua_kwa_kupasuliwa = models.BooleanField(null=True, blank=True)
+    kuharibika_kwa_mimba_2_au_zaidi = models.BooleanField(null=True, blank=True)
+    ugonjwa_wa_moyo  = models.BooleanField(null=True, blank=True)
+    kifua_kikuu = models.BooleanField(null=True, blank=True)
+    kisukari  = models.BooleanField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -93,7 +95,7 @@ class LabaratoryMaasurement(models.Model):
 class AttendenceReport(models.Model):
     pregnance = models.ForeignKey(Pregnance, on_delete=models.CASCADE)
     tarehe_ya_mahudhurio = models.DateField()
-    uzito =  models.ForeignKey(Patient, on_delete=models.CASCADE)
+    uzito =  models.CharField(max_length=200,  null=True, blank=True)
     blood_pressure  =  models.CharField(max_length=200,  null=True, blank=True)
     albimu_kwenye_mkojo =  models.CharField(max_length=200,  null=True, blank=True)
     damu =  models.CharField(max_length=200,  null=True, blank=True)

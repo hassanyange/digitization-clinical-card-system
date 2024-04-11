@@ -31,33 +31,50 @@
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title">Patients</h4>
+                    <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPatientModal">
+  Add Patient
+</button>
+
+{% include "snippets/messages.html" %}
+
+
+<div class="table-responsive">
                     <table class="table table-hover">
                       <thead>
-                        <tr>
-                          <th>Name</th>
-                          <th>Gender</th>
-                          <th>Age</th>
-                          <th>Childern No</th>
-                          <th>Action</th>
-                        </tr>
+                          <tr>
+                              <th>Number ya Uandikishaji</th>
+                              <th>Jina Kamili</th>
+                              <th>Umri</th>
+                              <th>Gender</th>
+                              {% comment %} <th>Anuani</th> {% endcomment %}
+                              <th>Number ya Simu</th>
+                              <th>Email</th>
+                              <th>Action</th>
+                          </tr>
                       </thead>
                       <tbody>
-                        
-                        
-                        {% for i in "12345" %}
-                        <tr>
-                            <td>Peter</td>
-                            <td>After effects</td>
-                            <td class="text-success"> 82.00</td>
-                            <td><label class="badge badge-success">Completed</label></td>
-                            <td>Delete| View</td>
+                          {% for patient in patients %}
+                          <tr>
+                              <td>{{ patient.number_ya_uandikishaji }}</td>
+                              <td>{{ patient.jina_kamili }}</td>
+                              <td>{{ patient.umri }}</td>
+                              <td>{{ patient.get_gender_display }}</td>
+                              {% comment %} <td>{{ patient.anuani }}</td> {% endcomment %}
+                              <td>{{ patient.number_ya_simu }}</td>
+                              <td>{{ patient.email }}</td>
+                              <td>
+                                  <a href="#"><i class="fa-solid fa-pen"></i></a> |
+                                  <a href="#"><i class="fa-solid fa-trash" style="color: #FF0000;"></i></a> |
+                                  <a href="{% url 'patient' patient.id %}"><i class="fa-regular fa-eye"></i></a>
+                              </td>
                           </tr>
-                        
-                        {% endfor %}
-                            
-                       
+                          {% endfor %}
                       </tbody>
-                    </table>
+                  </table>
+
+                </div>
+
                   </div>
                 </div>
               </div>
@@ -79,5 +96,28 @@
       <!-- page-body-wrapper ends -->
     </div>
    
+
+    <!-- Modal -->
+<div class="modal fade" id="addPatientModal" tabindex="-1" aria-labelledby="addPatientModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="d-flex justify-content-between">
+          <h5 class="modal-title" id="addPatientModalLabel">Add Patient</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <!-- Bootstraped Patient Form inside Modal -->
+        <form method="post" action="">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 {% endblock content %}
