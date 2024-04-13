@@ -73,9 +73,9 @@ def patients(request):
 @login_required
 def patient(request, id):
     patienty = Patient.objects.get(id=id)
-    pregnance_form = PregnanceForm()
+    pregnance_form = PregnancyForm()
     if request.method == 'POST':
-        pregnance_form = PregnanceForm(request.POST)
+        pregnance_form = PregnancyForm(request.POST)
         if pregnance_form.is_valid():
             pregnance = pregnance_form.save(commit=False)
             pregnance.patient = patienty
@@ -143,13 +143,13 @@ def doctors(request):
 
 
 def pregnance(request, id):
-    pregnancey = get_object_or_404(Pregnance, id=id)
+    pregnancey = get_object_or_404(Pregnancy, id=id)
     first_tm, _ = FirstTimePatientInfo.objects.get_or_create(pregnance=pregnancey)
-    previous_tm, _ = PreviousPregnanciesInfo.objects.get_or_create(pregnance=pregnancey)
-    labaratory_tm, _ = LabaratoryMaasurement.objects.get_or_create(pregnance=pregnancey)
+    previous_tm, _ = PreviousPregnancyInfo.objects.get_or_create(pregnance=pregnancey)
+    labaratory_tm, _ = LaboratoryMeasurement.objects.get_or_create(pregnance=pregnancey)
     first_pregnance_form = FirstTimePatientInfoForm(instance=first_tm)
-    previous_pregnancies_form = PreviousPregnanciesInfoForm(instance=previous_tm)
-    labaratory_info_form = LabaratoryMaasurementForm(instance=labaratory_tm)
+    previous_pregnancies_form = PreviousPregnancyInfoForm(instance=previous_tm)
+    labaratory_info_form = LaboratoryMeasurementForm(instance=labaratory_tm)
 
     if request.method == "POST" and 'first_pregnance_form_save' in request.POST:
         first_pregnance_form = FirstTimePatientInfoForm(
@@ -161,7 +161,7 @@ def pregnance(request, id):
             return redirect(pregnance, id)
 
     if request.method == "POST" and 'previous_pregnancies_form_save' in request.POST:
-        previous_pregnancies_form = PreviousPregnanciesInfoForm(
+        previous_pregnancies_form = PreviousPregnancyInfoForm(
             request.POST, instance=previous_tm)
         if previous_pregnancies_form.is_valid():
             previous_pregnancies_form.save()
@@ -170,7 +170,7 @@ def pregnance(request, id):
             return redirect(pregnance, id)
 
     if request.method == "POST" and 'labaratory_info_form_save' in request.POST:
-        labaratory_info_form = LabaratoryMaasurementForm(
+        labaratory_info_form = LaboratoryMeasurementForm(
             request.POST, instance=labaratory_tm)
         if labaratory_info_form.is_valid():
             labaratory_info_form.save()

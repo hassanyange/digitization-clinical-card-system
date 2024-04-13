@@ -1,17 +1,19 @@
-{% extends "snippets/base.html" %} {% block content %}
+{% extends "snippets/base.html" %}
+{% block content %}
 
 <!-- partial:partials/_navbar.html -->
 {% include "snippets/navbar.html" %}
-
 <!-- partial -->
+
 <div class="container-fluid page-body-wrapper">
   <!-- partial:partials/_sidebar.html -->
   {% include "snippets/sidebar.html" %}
   <!-- partial -->
+  
   <div class="main-panel">
     <div class="content-wrapper">
       <div class="d-xl-flex justify-content-between align-items-start">
-        <h2 class="text-dark font-weight-bold mb-2">Pregnance  Details</h2>
+        <h2 class="text-dark font-weight-bold mb-2">Pregnancy Details</h2>
         <div class="d-flex justify-content-between">
           <!-- Button trigger modal -->
           <button
@@ -20,7 +22,7 @@
             data-bs-toggle="modal"
             data-bs-target="#addPatientModal"
           >
-            Add Pregnance
+            Add Pregnancy
           </button>
         </div>
       </div>
@@ -30,46 +32,34 @@
           <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
               <div class="card-body">
-                <p>Taarifa Za Mzazi</p>
+                <p>Parent Information</p>
                 <div class="table-responsive">
                   <table class="table table-hover">
                     <thead>
                       <tr>
-                        <th>Number ya Uandikishaji</th>
-                        <th>Jina Kamili</th>
-                        <th>Umri</th>
+                        <th>Registration Number</th>
+                        <th>Full Name</th>
+                        <th>Age</th>
                         <th>Gender</th>
-                        {% comment %}
-                        <th>Anuani</th>
-                        {% endcomment %}
-                        <th>Number ya Simu</th>
+                        <th>Phone Number</th>
                         <th>Email</th>
                         <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td>{{ pregnance.patient.number_ya_uandikishaji }}</td>
-                        <td>{{ pregnance.patient.jina_kamili }}</td>
-                        <td>{{ pregnance.patient.umri }}</td>
-                        <td>{{ pregnance.patient.get_gender_display }}</td>
-                        {% comment %}
-                        <td>{{ patient.anuani }}</td>
-                        {% endcomment %}
-                        <td>{{ pregnance.patient.number_ya_simu }}</td>
-                        <td>{{ pregnance.patient.email }}</td>
+                        <td>{{ pregnancy.patient.registration_number }}</td>
+                        <td>{{ pregnancy.patient.full_name }}</td>
+                        <td>{{ pregnancy.patient.age }}</td>
+                        <td>{{ pregnancy.patient.get_gender_display }}</td>
+                        <td>{{ pregnancy.patient.phone_number }}</td>
+                        <td>{{ pregnancy.patient.email }}</td>
                         <td>
                           <a href="#"><i class="fa-solid fa-pen"></i></a> |
-                          <a href="#"
-                            ><i
-                              class="fa-solid fa-trash"
-                              style="color: #ff0000"
-                            ></i
-                          ></a>
-                          |
-                          {% comment %} <a href="{% url 'patient' patient.id %}"
-                            ><i class="fa-regular fa-eye"></i
-                          ></a> {% endcomment %}
+                          <a href="#"><i class="fa-solid fa-trash" style="color: #ff0000"></i></a>
+                          {% comment %} |
+                          <a href="{% url 'patient' patient.id %}"><i class="fa-regular fa-eye"></i></a>
+                          {% endcomment %}
                         </td>
                       </tr>
                     </tbody>
@@ -84,13 +74,13 @@
 
       <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
         <li class="nav-item" role="presentation">
-          <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Kwa Mahudhurio Ya Kwanza</button>
+          <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">For First Attendance</button>
         </li>
         <li class="nav-item" role="presentation">
-          <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Taarifa za Mimba Zilizopita</button>
+          <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Information on Previous Pregnancies</button>
         </li>
         <li class="nav-item" role="presentation">
-          <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Vipimo Vya Maabara</button>
+          <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Laboratory Measurements</button>
         </li>
       </ul>
       <div class="tab-content" id="pills-tabContent">
@@ -99,7 +89,7 @@
                 {% csrf_token %}
                 
                 <div class="d-flex flex-wrap">
-                    {% for field in first_pregnance_form %}
+                    {% for field in first_pregnancy_form %}
                     <div class="col-md-4">
                         <div class="form-group m-1">
                            {{ field.label }}
@@ -110,7 +100,7 @@
                 </div>
                 <br>
                 
-                <button type="submit" name="first_pregnance_form_save" class="btn btn-primary">
+                <button type="submit" name="first_pregnancy_form_save" class="btn btn-primary">
                     Save Changes
                 </button>
             </form>
@@ -196,7 +186,7 @@
       <div class="modal-body">
         <!-- Bootstraped Patient Form inside Modal -->
         <form method="post" action="">
-          {% csrf_token %} {{ pregnance_form.as_p }}
+          {% csrf_token %} {{ pregnancy_form.as_p }}
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
       </div>
