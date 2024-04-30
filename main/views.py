@@ -16,7 +16,7 @@ def home(request):
     total_doctors = Doctor.objects.count()
     # total_researchers = Researcher.objects.count()
     total_users = User.objects.count()
-    
+
     context = {
         'total_patients': total_patients,
         'total_doctors': total_doctors,
@@ -64,23 +64,22 @@ def logout_user(request):
     messages.info(request, "Successful logged out")
     return redirect(home)
 
+
 def profile(request):
     if request.method == 'POST':
         form = AccountDetailsForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect('profile')  
+            return redirect('profile')
     else:
         form = AccountDetailsForm(instance=request.user)
     return render(request, 'accountdetails.html', {'form': form})
 
 
-
-
 # list all pattients
 @login_required()
 def patients(request):
-    patients = Patient.objects.all()
+    patients_list = Patient.objects.all()
     form = PatientForm()
     if request.method == 'POST':
         form = PatientForm(request.POST)
@@ -88,7 +87,7 @@ def patients(request):
             form.save()
             messages.success(request, 'Patient added successfully')
             return redirect(patients)
-    context = {'patients': patients, 'form': form}
+    context = {'patients': patients_list, 'form': form}
     return render(request, 'patients.html', context)
 
 
@@ -167,9 +166,12 @@ def doctors(request):
 
 def pregnance(request, id):
     pregnancey = get_object_or_404(Pregnancy, id=id)
-    first_tm, _ = FirstTimePatientInfo.objects.get_or_create(pregnance=pregnancey)
-    previous_tm, _ = PreviousPregnancyInfo.objects.get_or_create(pregnance=pregnancey)
-    labaratory_tm, _ = LaboratoryMeasurement.objects.get_or_create(pregnance=pregnancey)
+    first_tm, _ = FirstTimePatientInfo.objects.get_or_create(
+        pregnancy=pregnancey)
+    previous_tm, _ = PreviousPregnancyInfo.objects.get_or_create(
+        pregnancy=pregnancey)
+    labaratory_tm, _ = LaboratoryMeasurement.objects.get_or_create(
+        pregnancy=pregnancey)
     first_pregnance_form = FirstTimePatientInfoForm(instance=first_tm)
     previous_pregnancies_form = PreviousPregnancyInfoForm(instance=previous_tm)
     labaratory_info_form = LaboratoryMeasurementForm(instance=labaratory_tm)
@@ -204,6 +206,10 @@ def pregnance(request, id):
         'pregnance': pregnancey,
         'first_pregnance_form': first_pregnance_form,
         'previous_pregnancies_form': previous_pregnancies_form,
-                'labaratory_info_form': labaratory_info_form
+        'labaratory_info_form': labaratory_info_form
     }
     return render(request, 'pregnance.html', context)
+
+
+
+   

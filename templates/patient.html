@@ -75,7 +75,7 @@
       <div class="d-flex">
         <div class="col-xl-3 col-lg-6 col-sm-6 grid-dmargin ">
           {% for child in patient.pregnancy_set.all %}
-            <a href="{% url 'pregnancy' child.id %}" class="text-decoration-none">
+            <a href="{% url 'pregnance' child.id %}" class="text-decoration-none">
               <div class="card">
                 <div class="card-body p-2 m-0 text">
                   <h5 class="mb text-dark font-weight-normal">Child Name: {{ child.baby_name }}</h5>
@@ -102,14 +102,14 @@
     <div class="modal-content">
       <div class="modal-header">
         <div class="d-flex justify-content-between">
-          <h5 class="modal-title" id="addPatientModalLabel">Add Patient</h5>
+          <h5 class="modal-title" id="addPatientModalLabel">Add Pregance</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
       </div>
       <div class="modal-body">
         <!-- Bootstraped Patient Form inside Modal -->
         <form method="post" action="">
-          {% csrf_token %} {{ pregnancy_form.as_p }}
+          {% csrf_token %} {{ pregnance_form.as_p }}
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
       </div>
