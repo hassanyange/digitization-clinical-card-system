@@ -1,5 +1,5 @@
 from django import forms
-from main.models import Doctor, FirstTimePatientInfo, LabaratoryMaasurement, Patient, Pregnance, PreviousPregnanciesInfo
+from main.models import Doctor, FirstTimePatientInfo, LaboratoryMeasurement, Patient, Pregnancy, PreviousPregnancyInfo
 from django.contrib.auth.models import User
 
 class AccountDetailsForm(forms.ModelForm):
@@ -19,22 +19,22 @@ class PatientForm(forms.ModelForm):
         fields = '__all__'
 
         widgets = {
-            'number_ya_uandikishaji': forms.TextInput(attrs={'class': 'form-control'}),
-            'jina_kamili': forms.TextInput(attrs={'class': 'form-control'}),
-            'umri': forms.NumberInput(attrs={'class': 'form-control'}),
+            'registration_number': forms.TextInput(attrs={'class': 'form-control'}),
+            'full_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'age': forms.NumberInput(attrs={'class': 'form-control'}),
             'gender': forms.Select(attrs={'class': 'form-select'}),
-            'anuani': forms.TextInput(attrs={'class': 'form-control'}),
-            'number_ya_simu': forms.TextInput(attrs={'class': 'form-control'}),
+            'address': forms.TextInput(attrs={'class': 'form-control'}),
+            'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'password': forms.PasswordInput(render_value=True, attrs={'class': 'form-control'}),
             'image': forms.FileInput(attrs={'class': 'form-control'}),
-            'jina_la_mume': forms.TextInput(attrs={'class': 'form-control'}),
-            'kimo': forms.Select(attrs={'class': 'form-select'}),
-            'kazi': forms.TextInput(attrs={'class': 'form-control'}),
-            'kijiji_au_mtaa': forms.TextInput(attrs={'class': 'form-control'}),
-            'jina_la_mwenyekiti': forms.TextInput(attrs={'class': 'form-control'}),
-            'kata_wilaya': forms.TextInput(attrs={'class': 'form-control'}),
-            'elimu': forms.TextInput(attrs={'class': 'form-control'}),
+            'husband_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'height': forms.Select(attrs={'class': 'form-select'}),
+            'occupation': forms.TextInput(attrs={'class': 'form-control'}),
+            'village_or_street': forms.TextInput(attrs={'class': 'form-control'}),
+            'chairperson_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'ward_district': forms.TextInput(attrs={'class': 'form-control'}),
+            'education': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
 class DoctorForm(forms.ModelForm):
@@ -49,20 +49,18 @@ class DoctorForm(forms.ModelForm):
             'address': forms.TextInput(attrs={'class': 'form-control'}),
             'about': forms.TextInput(attrs={'class': 'form-control'}),
             'status': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'cheo': forms.Select(attrs={'class': 'form-select'}),
+            'position': forms.Select(attrs={'class': 'form-select'}),
         }
 
-
-class PregnanceForm(forms.ModelForm):
+class PregnancyForm(forms.ModelForm):
     class Meta:
-        model = Pregnance
+        model = Pregnancy
         exclude = ['patient']
 
         widgets = {
-            'jina_la_mtoto': forms.TextInput(attrs={'class': 'form-control'}),
-            'mimba_ya_ngapi': forms.NumberInput(attrs={'class': 'form-control'}),
+            'baby_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'pregnancy_number': forms.NumberInput(attrs={'class': 'form-control'}),
         }
-        
 
 class BootstrapFormMixin(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -75,17 +73,17 @@ class BootstrapFormMixin(forms.ModelForm):
             else:
                 field.widget.attrs.update({'class': 'form-control'})
 
-class PreviousPregnanciesInfoForm(BootstrapFormMixin, forms.ModelForm):
+class PreviousPregnancyInfoForm(BootstrapFormMixin, forms.ModelForm):
     class Meta:
-        model = PreviousPregnanciesInfo
-        exclude = ['pregnance']
+        model = PreviousPregnancyInfo
+        exclude = ['pregnancy']
 
 class FirstTimePatientInfoForm(BootstrapFormMixin, forms.ModelForm):
     class Meta:
         model = FirstTimePatientInfo
-        exclude = ['pregnance']
+        exclude = ['pregnancy']
 
-class LabaratoryMaasurementForm(BootstrapFormMixin, forms.ModelForm):
+class LaboratoryMeasurementForm(BootstrapFormMixin, forms.ModelForm):
     class Meta:
-        model = LabaratoryMaasurement
-        exclude = ['pregnance']
+        model = LaboratoryMeasurement
+        exclude = ['pregnancy']

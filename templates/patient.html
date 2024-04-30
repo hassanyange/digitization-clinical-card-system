@@ -1,13 +1,15 @@
-{% extends "snippets/base.html" %} {% block content %}
+{% extends "snippets/base.html" %} 
+{% block content %}
 
 <!-- partial:partials/_navbar.html -->
 {% include "snippets/navbar.html" %}
-
 <!-- partial -->
+
 <div class="container-fluid page-body-wrapper">
   <!-- partial:partials/_sidebar.html -->
   {% include "snippets/sidebar.html" %}
   <!-- partial -->
+  
   <div class="main-panel">
     <div class="content-wrapper">
       <div class="d-xl-flex justify-content-between align-items-start">
@@ -20,10 +22,11 @@
             data-bs-toggle="modal"
             data-bs-target="#addPatientModal"
           >
-            Add Pregnance
+            Add Pregnancy
           </button>
         </div>
       </div>
+      
       <div class="row">
         <div class="col-md-12">
           <div class="col-lg-12 grid-margin stretch-card">
@@ -35,41 +38,27 @@
                   <table class="table table-hover">
                     <thead>
                       <tr>
-                        <th>Number ya Uandikishaji</th>
-                        <th>Jina Kamili</th>
-                        <th>Umri</th>
+                        <th>Registration Number</th>
+                        <th>Full Name</th>
+                        <th>Age</th>
                         <th>Gender</th>
-                        {% comment %}
-                        <th>Anuani</th>
-                        {% endcomment %}
-                        <th>Number ya Simu</th>
+                        <th>Phone Number</th>
                         <th>Email</th>
                         <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td>{{ patient.number_ya_uandikishaji }}</td>
-                        <td>{{ patient.jina_kamili }}</td>
-                        <td>{{ patient.umri }}</td>
+                        <td>{{ patient.registration_number }}</td>
+                        <td>{{ patient.full_name }}</td>
+                        <td>{{ patient.age }}</td>
                         <td>{{ patient.get_gender_display }}</td>
-                        {% comment %}
-                        <td>{{ patient.anuani }}</td>
-                        {% endcomment %}
-                        <td>{{ patient.number_ya_simu }}</td>
+                        <td>{{ patient.phone_number }}</td>
                         <td>{{ patient.email }}</td>
                         <td>
                           <a href="#"><i class="fa-solid fa-pen"></i></a> |
-                          <a href="#"
-                            ><i
-                              class="fa-solid fa-trash"
-                              style="color: #ff0000"
-                            ></i
-                          ></a>
-                          |
-                          <a href="{% url 'patient' patient.id %}"
-                            ><i class="fa-regular fa-eye"></i
-                          ></a>
+                          <a href="#"><i class="fa-solid fa-trash" style="color: #ff0000"></i></a> |
+                          <a href="{% url 'patient' patient.id %}"><i class="fa-regular fa-eye"></i></a>
                         </td>
                       </tr>
                     </tbody>
@@ -81,23 +70,20 @@
           </div>
         </div>
       </div>
+      
       <h4>Pregnancies History</h4>
       <div class="d-flex">
         <div class="col-xl-3 col-lg-6 col-sm-6 grid-dmargin ">
-       
-       {% for child in patient.pregnance_set.all %}
-       <a href="{% url 'pregnance' child.id %}" class="text-decoration-none">
-        <div class="card">
-          <div class="card-body p-2 m-0 text">
-            <h5 class="mb text-dark font-weight-normal">Child Name: {{child.jina_la_mtoto}}</h5>
-            <p class="mb text-dark font-weight-bold">Created Date: {{child.created_at | date}}</p>
-            
-          </div>
-        </div>
-       </a>
-        
-       {% endfor %}
-        
+          {% for child in patient.pregnancy_set.all %}
+            <a href="{% url 'pregnancy' child.id %}" class="text-decoration-none">
+              <div class="card">
+                <div class="card-body p-2 m-0 text">
+                  <h5 class="mb text-dark font-weight-normal">Child Name: {{ child.baby_name }}</h5>
+                  <p class="mb text-dark font-weight-bold">Created Date: {{ child.created_at | date }}</p>
+                </div>
+              </div>
+            </a>
+          {% endfor %}
         </div>
       </div>
     </div>
@@ -111,30 +97,19 @@
 <!-- page-body-wrapper ends -->
 
 <!-- Modal -->
-<div
-  class="modal fade"
-  id="addPatientModal"
-  tabindex="-1"
-  aria-labelledby="addPatientModalLabel"
-  aria-hidden="true"
->
+<div class="modal fade" id="addPatientModal" tabindex="-1" aria-labelledby="addPatientModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <div class="d-flex justify-content-between">
           <h5 class="modal-title" id="addPatientModalLabel">Add Patient</h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
       </div>
       <div class="modal-body">
         <!-- Bootstraped Patient Form inside Modal -->
         <form method="post" action="">
-          {% csrf_token %} {{ pregnance_form.as_p }}
+          {% csrf_token %} {{ pregnancy_form.as_p }}
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
       </div>
