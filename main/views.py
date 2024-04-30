@@ -12,8 +12,18 @@ from .forms import *
 # Create your views here.
 @login_required
 def home(request):
+    total_patients = Patient.objects.count()
+    total_doctors = Doctor.objects.count()
+    # total_researchers = Researcher.objects.count()
+    total_users = User.objects.count()
+    
+    context = {
+        'total_patients': total_patients,
+        'total_doctors': total_doctors,
+        'total_users': total_users,
+    }
 
-    return render(request, 'index.html')
+    return render(request, 'index.html', context)
 
 
 def signin(request):
@@ -23,7 +33,7 @@ def signin(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            return render(request, 'index.html')
+            return redirect(home)
         else:
             messages.error(request, 'Invalid credentials')
             return redirect(signin)
@@ -51,7 +61,20 @@ def signup(request):
 
 def logout_user(request):
     logout(request)
+    messages.info(request, "Successful logged out")
     return redirect(home)
+
+def profile(request):
+    if request.method == 'POST':
+        form = AccountDetailsForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')  
+    else:
+        form = AccountDetailsForm(instance=request.user)
+    return render(request, 'accountdetails.html', {'form': form})
+
+
 
 
 # list all pattients
@@ -129,7 +152,7 @@ def delete_patient(request, id):
 
 
 def doctors(request):
-    doctors = Doctor.objects.all()
+    doctors_list = Doctor.objects.all()
     form = DoctorForm()
 
     if request.method == 'POST':
@@ -138,7 +161,7 @@ def doctors(request):
             form.save()
             messages.success(request, 'Doctor added successfully')
             return redirect(doctors)
-    context = {'doctors': doctors, 'form': form}
+    context = {'doctors': doctors_list, 'form': form}
     return render(request, 'doctors.html', context)
 
 

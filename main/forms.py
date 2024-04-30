@@ -1,6 +1,18 @@
 from django import forms
 from main.models import Doctor, FirstTimePatientInfo, LabaratoryMaasurement, Patient, Pregnance, PreviousPregnanciesInfo
+from django.contrib.auth.models import User
 
+class AccountDetailsForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'first_name', 'last_name']
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+        
 class PatientForm(forms.ModelForm):
     class Meta:
         model = Patient

@@ -43,7 +43,7 @@ class Patient(models.Model):
     password = models.CharField(max_length=50)
     image = models.ImageField(upload_to='patients', null=True, blank=True)
     jina_la_mume =   models.CharField(max_length=200, blank=True, null=True)
-    kimo = models.CharField(max_length=110, null=True,  choices=kimo_choices)
+    kimo = models.CharField(max_length=110, null=True,  blank=True)
     kazi = models.CharField(max_length=200, blank=True, null=True)
     kijiji_au_mtaa = models.CharField(max_length=200, blank=True, null=True)
     jina_la_mwenyekiti = models.CharField(max_length=200, blank=True, null=True)
