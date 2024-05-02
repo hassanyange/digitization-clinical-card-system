@@ -191,11 +191,22 @@ def delete_patient(request, id):
 def doctors(request):
     doctors_list = Doctor.objects.all()
     form = DoctorForm()
+    
+    
 
     if request.method == 'POST':
         form = DoctorForm(request.POST)
         if form.is_valid():
-            form.save()
+            username = request.POST.get('email')
+            password = request.POST.get('password')
+            if User.objects.filter(username=username).exists():
+                messages.error(request, 'User already exists')
+                return redirect(doctors)
+            user  = User.objects.create_user(username=username, email=username, password=password)
+            user.save()
+            data = form.save(commit=False)
+            data.user = user
+            data.save()
             messages.success(request, 'Doctor added successfully')
             return redirect(doctors)
     context = {'doctors': doctors_list, 'form': form}
