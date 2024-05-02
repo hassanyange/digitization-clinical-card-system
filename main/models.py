@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 gender_choices = (("MALE", "MALE"), ("FEMALE", "FEMALE"))
 height_choices = (("UP TO 150", "UP TO 150"), ("BELOW 150", "BELOW 150"))
@@ -15,6 +16,7 @@ class Role(models.Model):
         return self.name
 
 class Doctor(models.Model):
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     email = models.EmailField(max_length=200, blank=True, null=True)
     phone_number = models.CharField(max_length=200, blank=True, null=True)
@@ -30,6 +32,7 @@ class Doctor(models.Model):
 
 
 class Researcher(models.Model):
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     email = models.EmailField(max_length=200, blank=True, null=True)
     phone_number = models.CharField(max_length=200, blank=True, null=True)
@@ -42,6 +45,7 @@ class Researcher(models.Model):
         return self.name
 
 class Patient(models.Model):
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     registration_number = models.CharField(max_length=15)
     full_name = models.CharField(max_length=50)
     age = models.IntegerField()

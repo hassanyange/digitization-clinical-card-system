@@ -16,11 +16,15 @@ def home(request):
     total_doctors = Doctor.objects.count()
     # total_researchers = Researcher.objects.count()
     total_users = User.objects.count()
+    total_researchers = Researcher.objects.count()
+    totol_childs = Pregnancy.objects.count()
 
     context = {
         'total_patients': total_patients,
         'total_doctors': total_doctors,
         'total_users': total_users,
+        'total_researchers':total_researchers,
+        'totol_childs':totol_childs,
     }
 
     return render(request, 'index.html', context)
@@ -83,8 +87,20 @@ def patients(request):
     form = PatientForm()
     if request.method == 'POST':
         form = PatientForm(request.POST)
+        username = request.POST.get('email')
+        password = request.POST.get('password')
+        if User.objects.filter(username=username).exists():
+            messages.error(request, 'User already exists')
+            return redirect(patients)
+        
+        user  = User.objects.create_user(username=username, email=username, password=password)
+        user.save()
+        
+        
         if form.is_valid():
-            form.save()
+            data = form.save(commit=False)
+            data.user = user
+            data.save()
             messages.success(request, 'Patient added successfully')
             return redirect(patients)
     context = {'patients': patients_list, 'form': form}
@@ -166,6 +182,7 @@ def doctors(request):
 
 def researchers(request):
     researchers_list = Researcher.objects.all()
+    print(researchers_list)
     form = ResearcherForm()
 
     if request.method == 'POST':
