@@ -165,7 +165,7 @@ def doctors(request):
 
 
 def researchers(request):
-    doctors_list = Researcher.objects.all()
+    researchers_list = Researcher.objects.all()
     form = ResearcherForm()
 
     if request.method == 'POST':
@@ -174,7 +174,7 @@ def researchers(request):
             form.save()
             messages.success(request, 'Researcher added successfully')
             return redirect(researchers)
-    context = {'researchers': doctors_list, 'form': form}
+    context = {'researchers': researchers_list, 'form': form}
     return render(request, 'researchers.html', context)
 
 
