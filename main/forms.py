@@ -1,5 +1,5 @@
 from django import forms
-from main.models import Doctor, FirstTimePatientInfo, LaboratoryMeasurement, Patient, Pregnancy, PreviousPregnancyInfo
+from main.models import Doctor, FirstTimePatientInfo, Researcher, LaboratoryMeasurement, Patient, Pregnancy, PreviousPregnancyInfo
 from django.contrib.auth.models import User
 
 class AccountDetailsForm(forms.ModelForm):
@@ -50,6 +50,22 @@ class DoctorForm(forms.ModelForm):
             'about': forms.TextInput(attrs={'class': 'form-control'}),
             'status': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'position': forms.Select(attrs={'class': 'form-select'}),
+        }
+
+
+class ResearcherForm(forms.ModelForm):
+    class Meta:
+        model = Researcher
+        fields = '__all__'
+
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
+            'address': forms.TextInput(attrs={'class': 'form-control'}),
+            'about': forms.TextInput(attrs={'class': 'form-control'}),
+            'status': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+          
         }
 
 class PregnancyForm(forms.ModelForm):

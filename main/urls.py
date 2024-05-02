@@ -23,6 +23,12 @@ urlpatterns = [
     # path('doctor/<int:id>/edit', views.edit_doctor, name='edit_doctor'),
     # path('doctor/<int:id>/delete', views.delete_doctor, name='delete_doctor'),
     
+    path('researchers/', views.researchers, name='researchers'),
+    # path('researcher/<int:id>', views.researcher, name='researcher'),
+    # path('researcher/new', views.researcher, name='new_researcher'),
+    # path('researcher/<int:id>/edit', views.researcher, name='edit_researcher'),
+    # path('researcher/<int:id>/delete', views.researcher, name='delete_researcher'),
+
     path('patient/pregnance/<str:id>/', views.pregnance, name='pregnance'),
     path('child-data/<str:id>/', views.child_data, name='child-data'),
     

@@ -8,6 +8,9 @@ from django.contrib.auth.models import User
 
 admin.site.register(Patient)
 admin.site.register(Doctor)
+admin.site.register(Pregnancy)
 admin.site.register(FirstTimePatientInfo)
 admin.site.register(LaboratoryMeasurement)
 admin.site.register(PreviousPregnancyInfo)
+admin.site.register(AttendanceReport)
+admin.site.register(Researcher)

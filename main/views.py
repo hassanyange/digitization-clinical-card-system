@@ -164,6 +164,20 @@ def doctors(request):
     return render(request, 'doctors.html', context)
 
 
+def researchers(request):
+    researchers_list = Researcher.objects.all()
+    form = ResearcherForm()
+
+    if request.method == 'POST':
+        form = ResearcherForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Researcher added successfully')
+            return redirect(researchers)
+    context = {'researchers': researchers_list, 'form': form}
+    return render(request, 'researchers.html', context)
+
+
 def pregnance(request, id):
     pregnancey = get_object_or_404(Pregnancy, id=id)
     first_tm, _ = FirstTimePatientInfo.objects.get_or_create(
