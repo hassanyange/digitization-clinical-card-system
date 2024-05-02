@@ -212,4 +212,7 @@ def pregnance(request, id):
 
 
 
-   
+def child_data(request, id):
+    
+    context={}
+    return render(request, 'child_data.html', context)

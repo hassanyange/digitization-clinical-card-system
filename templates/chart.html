@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Children's Weight Growth</title>
+  <!-- Include Highcharts library -->
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/modules/export-data.js"></script>
+  <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+</head>
+<body>
+  <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+  <script>
+    // Data for children's weight growth from age 0 to 15
+    var weightData = [
+      { age: 0, weight: 3.4 },
+      { age: 1, weight: 10 },
+      { age: 2, weight: 12 },
+      { age: 3, weight: 14 },
+      { age: 4, weight: 16 },
+      { age: 5, weight: 18 },
+      { age: 6, weight: 20 },
+      { age: 7, weight: 23 },
+      { age: 8, weight: 26 },
+      { age: 9, weight: 31 },
+      { age: 10, weight: 35 },
+      { age: 11, weight: 40 },
+      { age: 12, weight: 46 },
+      { age: 13, weight: 53 },
+      { age: 14, weight: 61 },
+      { age: 15, weight: 70 }
+    ];
+
+    // Extracting data for x-axis and y-axis
+    var ages = weightData.map(data => data.age);
+    var weights = weightData.map(data => data.weight);
+
+    // Creating the Highcharts graph
+    Highcharts.chart('container', {
+      chart: {
+        type: 'area'
+      },
+      title: {
+        text: "Children's Weight Growth from Age 0 to 15"
+      },
+      xAxis: {
+        title: {
+          text: 'Age'
+        },
+        categories: ages
+      },
+      yAxis: {
+        title: {
+          text: 'Weight (kg)'
+        }
+      },
+      series: [{
+        name: 'Weight',
+        data: weights
+      }]
+    });
+  </script>
+</body>
+</html>

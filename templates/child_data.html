@@ -1,0 +1,158 @@
+{% extends "snippets/base.html" %}
+
+{% block content %}
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+   <!-- partial:partials/_navbar.html -->
+   {% include "snippets/navbar.html" %}
+
+   <!-- partial -->
+   <div class="container-fluid page-body-wrapper">
+      <!-- partial:partials/_sidebar.html -->
+      {% include "snippets/sidebar.html" %}
+      <!-- partial -->
+      <div class="main-panel">
+         <div class="content-wrapper">
+            <div class="d-xl-flex justify-content-between align-items-start">
+               <!-- <h2 class="text-dark font-weight-bold mb-2"> Overview dashboard </h2> -->
+            </div>
+            <div class="row">
+               <div class="col-md-12">
+                  <div class="col-lg-12 grid-margin stretch-card">
+                     <div class="card">
+                        <div class="card-body">
+                           <h4 class="card-title">Child Details</h4>
+                           <!-- Button trigger modal -->
+                           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPatientModal">
+                           Add Patient
+                           </button>
+                           {% include "snippets/messages.html" %}
+                          
+                           
+
+
+                           <div class="container">
+                            <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+                           </div>
+
+
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- content-wrapper ends -->
+         <!-- partial:partials/_footer.html -->
+         {% include "snippets/footer.html" %}
+         <!-- partial -->
+      </div>
+      <!-- main-panel ends -->
+   </div>
+   <!-- page-body-wrapper ends -->
+   </div>
+
+   <!-- Modal -->
+   <div class="modal fade" id="addPatientModal" tabindex="-1" aria-labelledby="addPatientModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <div class="d-flex justify-content-between">
+                  <h5 class="modal-title" id="addPatientModalLabel">Add Patient</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+            </div>
+            <div class="modal-body">
+               <!-- Bootstraped Patient Form inside Modal -->
+               <form method="post" action="">
+                  {% csrf_token %}
+                  {{ form.as_p }}
+                  <button type="submit" class="btn btn-primary">Submit</button>
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
+
+
+   <script>
+    // Data for children's weight growth from age 0 to 15 months
+    var weightData = [
+      { age: 0, weight: 3.4 },
+      { age: 1, weight: 10 },
+      { age: 2, weight: 12 },
+      { age: 3, weight: 14 },
+      { age: 4, weight: 16 },
+      { age: 5, weight: 18 },
+      { age: 6, weight: 20 },
+      { age: 7, weight: 23 },
+      { age: 8, weight: 26 },
+      { age: 9, weight: 31 },
+      { age: 10, weight: 35 },
+      { age: 11, weight: 40 },
+      { age: 12, weight: 46 },
+      { age: 13, weight: 53 },
+      { age: 14, weight: 61 },
+      { age: 15, weight: 70 }
+    ];
+
+    // Extracting data for x-axis and y-axis
+    var ages = weightData.map(data => data.age);
+    var weights = weightData.map(data => data.weight);
+
+    // Creating the Highcharts graph
+    Highcharts.chart('container', {
+      chart: {
+        type: 'area'
+      },
+      title: {
+        text: "Children's Weight Growth from Age 0 to 5"
+      },
+      xAxis: {
+        title: {
+          text: 'Age (Months)'
+        },
+        categories: ages
+      },
+      yAxis: {
+        title: {
+          text: 'Weight (kg)'
+        },
+        plotBands: [{
+          from: 0,
+          to: 10,
+          color: 'rgb(220,20,60)', // Good health
+          label: {
+            text: 'Mbaya'
+          }
+        }, {
+          from: 10,
+          to: 25,
+          color: 'rgb(128,128,128)', // Normal health
+          label: {
+            text: 'Hafifu'
+          }
+        }, {
+          from: 25,
+          to: 70,
+          color: 'rgb(50,205,50)', // Bad health
+          label: {
+            text: 'Nzuri'
+          }
+        }]
+      },
+      series: [{
+        name: 'Weight',
+        data: weights
+      }]
+    });
+  </script>
+
+{% endblock content %}
+
+
