@@ -176,9 +176,10 @@ def pregnance(request, id):
     previous_pregnancies_form = PreviousPregnancyInfoForm(instance=previous_tm)
     labaratory_info_form = LaboratoryMeasurementForm(instance=labaratory_tm)
 
-    if request.method == "POST" and 'first_pregnance_form_save' in request.POST:
+    if request.method == "POST" and 'first_pregnancy_form_save' in request.POST:
         first_pregnance_form = FirstTimePatientInfoForm(
             request.POST, instance=first_tm)
+        print("Hello.....................................................hello")
         if first_pregnance_form.is_valid():
             first_pregnance_form.save()
             messages.success(
