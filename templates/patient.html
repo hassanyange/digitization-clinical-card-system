@@ -16,14 +16,22 @@
         <h2 class="text-dark font-weight-bold mb-2">Patient Details</h2>
         <div class="d-flex justify-content-between">
           <!-- Button trigger modal -->
+
+          
+          {% if not request.user.patient %}
           <button
-            type="button"
-            class="btn btn-primary  mb-2"
-            data-bs-toggle="modal"
-            data-bs-target="#addPatientModal"
-          >
-            Add Pregnancy
-          </button>
+          type="button"
+          class="btn btn-primary  mb-2"
+          data-bs-toggle="modal"
+          data-bs-target="#addPatientModal"
+        >
+          Add Pregnancy
+        </button>
+          {% endif %}
+            
+          
+
+
         </div>
       </div>
       

@@ -12,6 +12,20 @@ from .forms import *
 # Create your views here.
 @login_required
 def home(request):
+    
+    user = request.user
+    print(user)
+    try:
+        patient = Patient.objects.get(user=user)
+        print("patient foundddddd")
+        return redirect('patients') 
+    except Patient.DoesNotExist:
+        print("Patient dont exist")
+        pass
+    
+   
+        
+    
     total_patients = Patient.objects.count()
     total_doctors = Doctor.objects.count()
     # total_researchers = Researcher.objects.count()
@@ -83,6 +97,16 @@ def profile(request):
 # list all pattients
 @login_required()
 def patients(request):
+    
+    try:
+        if request.user.patient:
+            patients_list = Patient.objects.filter(user=request.user)
+            form = PatientForm()
+            context = {'patients': patients_list, 'form': form}
+            return render(request, 'patients.html', context)
+    except:
+        pass
+        
     patients_list = Patient.objects.all()
     form = PatientForm()
     if request.method == 'POST':
@@ -93,11 +117,9 @@ def patients(request):
             messages.error(request, 'User already exists')
             return redirect(patients)
         
-        user  = User.objects.create_user(username=username, email=username, password=password)
-        user.save()
-        
-        
         if form.is_valid():
+            user  = User.objects.create_user(username=username, email=username, password=password)
+            user.save()
             data = form.save(commit=False)
             data.user = user
             data.save()
@@ -235,7 +257,7 @@ def pregnance(request, id):
             return redirect(pregnance, id)
 
     context = {
-        'pregnance': pregnancey,
+        'pregnancey': pregnancey,
         'first_pregnance_form': first_pregnance_form,
         'previous_pregnancies_form': previous_pregnancies_form,
         'labaratory_info_form': labaratory_info_form
