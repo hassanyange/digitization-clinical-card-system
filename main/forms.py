@@ -16,7 +16,7 @@ class AccountDetailsForm(forms.ModelForm):
 class PatientForm(forms.ModelForm):
     class Meta:
         model = Patient
-        fields = '__all__'
+        exclude = ['user']
 
         widgets = {
             'registration_number': forms.TextInput(attrs={'class': 'form-control'}),
@@ -40,13 +40,14 @@ class PatientForm(forms.ModelForm):
 class DoctorForm(forms.ModelForm):
     class Meta:
         model = Doctor
-        fields = '__all__'
+        exclude = ['user']
 
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
             'address': forms.TextInput(attrs={'class': 'form-control'}),
+            'password': forms.PasswordInput(render_value=True, attrs={'class': 'form-control'}),
             'about': forms.TextInput(attrs={'class': 'form-control'}),
             'status': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'position': forms.Select(attrs={'class': 'form-select'}),
@@ -56,13 +57,14 @@ class DoctorForm(forms.ModelForm):
 class ResearcherForm(forms.ModelForm):
     class Meta:
         model = Researcher
-        fields = '__all__'
+        exclude = ['user']
 
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
             'address': forms.TextInput(attrs={'class': 'form-control'}),
+            'password': forms.PasswordInput(render_value=True, attrs={'class': 'form-control'}),
             'about': forms.TextInput(attrs={'class': 'form-control'}),
             'status': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
           
