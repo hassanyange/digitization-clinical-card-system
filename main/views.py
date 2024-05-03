@@ -221,7 +221,16 @@ def researchers(request):
     if request.method == 'POST':
         form = ResearcherForm(request.POST)
         if form.is_valid():
-            form.save()
+            username = request.POST.get('email')
+            password = request.POST.get('password')
+            if User.objects.filter(username=username).exists():
+                messages.error(request, 'User already exists')
+                return redirect(doctors)
+            user  = User.objects.create_user(username=username, email=username, password=password)
+            user.save()
+            data = form.save(commit=False)
+            data.user = user
+            data.save()
             messages.success(request, 'Researcher added successfully')
             return redirect(researchers)
     context = {'researchers': researchers_list, 'form': form}

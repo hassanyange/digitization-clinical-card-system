@@ -52,6 +52,7 @@
                         <th>Gender</th>
                         <th>Phone Number</th>
                         <th>Email</th>
+                        <th>Photo</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -63,6 +64,15 @@
                         <td>{{ patient.get_gender_display }}</td>
                         <td>{{ patient.phone_number }}</td>
                         <td>{{ patient.email }}</td>
+                        <td>
+                          
+                          {% if patient.image %}
+                          <a href="{{ patient.image.url }}">View Photo</a>
+                          {% else %}
+                          No Photo
+                          {% endif %}
+                            
+                        </td>
                         <td>
                           <a href="#"><i class="fa-solid fa-pen"></i></a> |
                           <a href="#"><i class="fa-solid fa-trash" style="color: #ff0000"></i></a> |
@@ -79,7 +89,7 @@
         </div>
       </div>
       
-      <h4>Pregnancies History</h4>
+      <h4 class="hhhh">Pregnancies History</h4>
       <div class="d-flex">
         <div class="col-xl-3 col-lg-6 col-sm-6 grid-dmargin ">
           {% for child in patient.pregnancy_set.all %}
