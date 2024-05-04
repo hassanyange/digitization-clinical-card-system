@@ -25,7 +25,7 @@ def home(request):
     
    
         
-    
+    total_appointments = Appointment.objects.count()
     total_patients = Patient.objects.count()
     total_doctors = Doctor.objects.count()
     # total_researchers = Researcher.objects.count()
@@ -39,6 +39,7 @@ def home(request):
         'total_users': total_users,
         'total_researchers':total_researchers,
         'totol_childs':totol_childs,
+        'total_appointments':total_appointments,
     }
 
     return render(request, 'index.html', context)
@@ -235,6 +236,34 @@ def researchers(request):
             return redirect(researchers)
     context = {'researchers': researchers_list, 'form': form}
     return render(request, 'researchers.html', context)
+
+
+
+
+def appointments(request):
+    appointments_list = Appointment.objects.all()
+    print(appointments_list)
+    form = AppointmentForm()
+
+    if request.method == 'POST':
+        form = AppointmentForm(request.POST)
+        if form.is_valid():
+            username = request.POST.get('email')
+            password = request.POST.get('password')
+            if User.objects.filter(username=username).exists():
+                messages.error(request, 'User already exists')
+                return redirect(appoints)
+            user  = User.objects.create_user(username=username, email=username, password=password)
+            user.save()
+            data = form.save(commit=False)
+            data.user = user
+            data.save()
+            messages.success(request, 'Appointment added successfully')
+            return redirect(researchers)
+    context = {'appointments': appointments_list, 'form': form}
+    return render(request, 'appointments.html', context)
+
+
 
 
 def pregnance(request, id):

@@ -1,5 +1,5 @@
 from django import forms
-from main.models import Doctor, FirstTimePatientInfo, Researcher, LaboratoryMeasurement, Patient, Pregnancy, PreviousPregnancyInfo
+from main.models import Doctor, FirstTimePatientInfo,Appointment, Researcher, LaboratoryMeasurement, Patient, Pregnancy, PreviousPregnancyInfo
 from django.contrib.auth.models import User
 
 class AccountDetailsForm(forms.ModelForm):
@@ -51,6 +51,27 @@ class DoctorForm(forms.ModelForm):
             'about': forms.TextInput(attrs={'class': 'form-control'}),
             'status': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'position': forms.Select(attrs={'class': 'form-select'}),
+        }
+
+
+
+class AppointmentForm(forms.ModelForm):
+    class Meta:
+        model = Appointment
+        exclude = ['user']
+
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
+            'address': forms.TextInput(attrs={'class': 'form-control'}),
+            'password': forms.PasswordInput(render_value=True, attrs={'class': 'form-control'}),
+            'problem': forms.TextInput(attrs={'class': 'form-control'}),
+            'appointment_with': forms.TextInput(attrs={'class': 'form-control'}),
+            'appointment_date': forms.TextInput(attrs={'class': 'form-control'}),
+            'status': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+          
         }
 
 

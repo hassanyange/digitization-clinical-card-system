@@ -10,12 +10,12 @@
     </li>
 
    
-    {% comment %} <li class="nav-item">
+    <li class="nav-item">
       <a class="nav-link" href="">
         <span class="icon-bg"><i class="mdi mdi-chart-bar menu-icon"></i></span>
         <span class="menu-title">Reports</span>
       </a>
-    </li> {% endcomment %}
+    </li> 
     
 
     {% if not user.patient %}
@@ -49,14 +49,14 @@
 
 
 
-    {% comment %} <li class="nav-item">
-      <a class="nav-link" href="">
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'appointments' %}">
         <span class="icon-bg"
           ><i class="mdi mdi-table-large menu-icon"></i
         ></span>
-        <span class="menu-title">Users</span>
+        <span class="menu-title">Appointments</span>
       </a>
-    </li> {% endcomment %}
+    </li>
 
     {% comment %} <li class="nav-item sidebar-user-actions">
       <div class="sidebar-user-menu">
