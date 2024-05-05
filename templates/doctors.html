@@ -32,7 +32,7 @@
                   <div class="card-body">
                   <div class="d-flex justify-content-between">
                     <h4 class="card-title">Doctors</h4>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDoctorModal">
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addDoctorModal">
                         Add Doctor
                     </button>
                   </div>
@@ -50,16 +50,19 @@
                         <tbody>
                             {% for doctor in doctors %}
                             <tr>
-                                <td>{{ doctor.name }}</td>
-                                <td>{{ doctor.email }}</td>
-                                <td>{{ doctor.phone_number }}</td>
-                                <td>{{ doctor.address }}</td>
-                                <td>{{ doctor.about }}</td>
-                                <td>
-                                    <a href="#">Edit</a> |
-                                    <a href="#">Delete</a> |
-                                </td>
-                            </tr>
+                              <td>{{ doctor.name }}</td>
+                              <td>{{ doctor.email }}</td>
+                              <td>{{ doctor.phone_number }}</td>
+                              <td>{{ doctor.address }}</td>
+                              <td>{{ doctor.about }}</td>
+                              <td>
+                                  <a href="{% url 'doctor' doctor.id %}"><i class="fa-regular fa-eye"></i></a>
+                                  <a href="{% url 'edit_doctor' doctor.id %}" class="btn btn-warning">Edit</a> 
+                                  <a href="{% url 'delete_doctor' doctor.id % }" class="btn btn-danger">Delete</a> 
+                                  
+                              </td>
+                          </tr>
+                          
                             {% endfor %}
                         </tbody>
                     </table>

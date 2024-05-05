@@ -22,7 +22,7 @@
                         <div class="card-body">
                            <h4 class="card-title">Patients</h4>
                            <!-- Button trigger modal -->
-                           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPatientModal">
+                           <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addPatientModal">
                            Add Patient
                            </button>
                            {% include "snippets/messages.html" %}
@@ -51,9 +51,10 @@
                                        <td>{{ patient.phone_number }}</td>
                                        <td>{{ patient.email }}</td>
                                        <td>
-                                          <a href="#"><i class="fa-solid fa-pen"></i></a> |
-                                          <a href="#"><i class="fa-solid fa-trash" style="color: #FF0000;"></i></a> |
                                           <a href="{% url 'patient' patient.id %}"><i class="fa-regular fa-eye"></i></a>
+                                          <a href="{% url 'edit_patient' patient.id %}" class="btn btn-warning">Edit</a> 
+                                          <a href="{% url 'delete_patient' patient.id %}" class="btn btn-danger">Delete</a>
+                                        
                                        </td>
                                     </tr>
                                     {% endfor %}

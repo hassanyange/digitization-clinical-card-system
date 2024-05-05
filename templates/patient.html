@@ -21,10 +21,10 @@
           {% if not request.user.patient %}
           <button
           type="button"
-          class="btn btn-primary  mb-2"
+          class="btn btn-success  mb-2"
           data-bs-toggle="modal"
           data-bs-target="#addPatientModal"
-        >
+         >
           Add Pregnancy
         </button>
           {% endif %}
@@ -43,44 +43,39 @@
                 
                 {% include "snippets/messages.html" %}
                 <div class="table-responsive">
-                  <table class="table table-hover">
-                    <thead>
-                      <tr>
-                        <th>Registration Number</th>
-                        <th>Full Name</th>
-                        <th>Age</th>
-                        <th>Gender</th>
-                        <th>Phone Number</th>
-                        <th>Email</th>
-                        <th>Photo</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
+                  <table class="table">
                     <tbody>
-                      <tr>
-                        <td>{{ patient.registration_number }}</td>
-                        <td>{{ patient.full_name }}</td>
-                        <td>{{ patient.age }}</td>
-                        <td>{{ patient.get_gender_display }}</td>
-                        <td>{{ patient.phone_number }}</td>
-                        <td>{{ patient.email }}</td>
-                        <td>
-                          
-                          {% if patient.image %}
-                          <a href="{{ patient.image.url }}">View Photo</a>
-                          {% else %}
-                          No Photo
-                          {% endif %}
-                            
-                        </td>
-                        <td>
-                          <a href="#"><i class="fa-solid fa-pen"></i></a> |
-                          <a href="#"><i class="fa-solid fa-trash" style="color: #ff0000"></i></a> |
-                          <a href="{% url 'patient' patient.id %}"><i class="fa-regular fa-eye"></i></a>
-                        </td>
-                      </tr>
+                        <tr>
+                            <td><strong>Registration Number:</strong></td>
+                            <td>{{ patient.registration_number }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Full Name:</strong></td>
+                            <td>{{ patient.full_name }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Picture:</strong></td>
+                            <td>{{ patient.image }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Age:</strong></td>
+                            <td>{{ patient.age }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Gender:</strong></td>
+                            <td>{{ patient.get_gender_display }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phone Number:</strong></td>
+                            <td>{{ patient.phone_number }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Email:</strong></td>
+                            <td>{{ patient.email }}</td>
+                        </tr>
                     </tbody>
-                  </table>
+                </table>
+              
                 </div>
                 <br /><br />
               </div>

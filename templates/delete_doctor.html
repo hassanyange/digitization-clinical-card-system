@@ -10,11 +10,12 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Edit Patient</h4>
+                                <h4 class="card-title">Delete Doctor</h4>
+                                <p>Are you sure you want to delete this doctor?</p>
                                 <form method="post">
                                     {% csrf_token %}
-                                    {{ form.as_p }}
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                    <a href="{% url 'doctors' %}" class="btn btn-secondary">Cancel</a>
                                 </form>
                             </div>
                         </div>

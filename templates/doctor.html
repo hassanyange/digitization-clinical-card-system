@@ -1,0 +1,48 @@
+{% extends "snippets/base.html" %}
+
+{% block content %}
+    {% include "snippets/navbar.html" %}
+    <div class="container-fluid page-body-wrapper">
+        {% include "snippets/sidebar.html" %}
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Doctor Details</h4>
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Name:</strong></td>
+                                            <td>{{ doctor.name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Email:</strong></td>
+                                            <td>{{ doctor.email }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Phone Number:</strong></td>
+                                            <td>{{ doctor.phone_number }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Address:</strong></td>
+                                            <td>{{ doctor.address }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>About:</strong></td>
+                                            <td>{{ doctor.about }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <a href="{% url 'edit_doctor' doctor.id %}" class="btn btn-warning">Edit</a>
+                                <a href="{% url 'delete_doctor' doctor.id %}" class="btn btn-danger">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% include "snippets/footer.html" %}
+        </div>
+    </div>
+{% endblock content %}

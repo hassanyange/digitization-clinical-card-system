@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 
 from main.form import DoctorForm
 from .models import *
@@ -168,25 +169,25 @@ def new_patient(request):
 
 # edit patient
 @login_required
+
 def edit_patient(request, id):
-    patient = Patient.objects.get(id=id)
-    form = PatientForm(instance=patient)
+    patient = get_object_or_404(Patient, id=id)
     if request.method == 'POST':
         form = PatientForm(request.POST, instance=patient)
         if form.is_valid():
             form.save()
-            return redirect(patients)
-
-    context = {'form': form}
-    return render(request, 'edit_patient.html', context)
-
-
-# delete patient
+            return redirect('patient', id=patient.id)
+    else:
+        form = PatientForm(instance=patient)
+    return render(request, 'edit_patient.html', {'form': form})
+    
 @login_required
 def delete_patient(request, id):
-    patient = Patient.objects.get(id=id)
-    patient.delete()
-    return redirect(patients)
+    patient = get_object_or_404(Patient, id=id)
+    if request.method == 'POST':
+        patient.delete()
+        return redirect('patients')
+    return render(request, 'delete_patient.html', {'patient': patient})
 
 
 def doctors(request):
@@ -214,6 +215,30 @@ def doctors(request):
     return render(request, 'doctors.html', context)
 
 
+
+def doctor(request, id):
+    doctor = get_object_or_404(Doctor, id=id)
+    return render(request, 'doctor.html', {'doctor': doctor})
+
+def edit_doctor(request, id):
+    doctor = get_object_or_404(Doctor, id=id)
+    if request.method == 'POST':
+        form = DoctorForm(request.POST, instance=doctor)
+        if form.is_valid():
+            form.save()
+            return redirect('doctor', id=doctor.id)
+    else:
+        form = DoctorForm(instance=doctor)
+    return render(request, 'edit_doctor.html', {'form': form})
+
+def delete_doctor(request, id):
+    doctor = get_object_or_404(Doctor, id=id)
+    if request.method == 'POST':
+        doctor.delete()
+        return redirect('doctors')
+    return render(request, 'delete_doctor.html', {'doctor': doctor})
+
+
 def researchers(request):
     researchers_list = Researcher.objects.all()
     print(researchers_list)
@@ -238,6 +263,27 @@ def researchers(request):
     return render(request, 'researchers.html', context)
 
 
+def researcher(request, id):
+    researcher = get_object_or_404(Researcher, id=id)
+    return render(request, 'researcher.html', {'researcher': researcher})
+
+def edit_researcher(request, id):
+    researcher = get_object_or_404(Researcher, id=id)
+    if request.method == 'POST':
+        form = ResearcherForm(request.POST, instance=researcher)
+        if form.is_valid():
+            form.save()
+            return redirect('researcher', id=researcher.id)
+    else:
+        form = ResearcherForm(instance=researcher)
+    return render(request, 'edit_researcher.html', {'form': form})
+
+def delete_researcher(request, id):
+    researcher = get_object_or_404(Researcher, id=id)
+    if request.method == 'POST':
+        researcher.delete()
+        return redirect('researchers')
+    return render(request, 'delete_researcher.html', {'researcher': researcher})
 
 
 def appointments(request):

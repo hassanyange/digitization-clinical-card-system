@@ -18,16 +18,16 @@ urlpatterns = [
     path('patient/<int:id>/delete', views.delete_patient, name='delete_patient'),
     
     path('doctors/', views.doctors, name='doctors'),
-    # path('doctor/<int:id>', views.doctor, name='doctor'),
+    path('doctor/<int:id>', views.doctor, name='doctor'),
     # path('doctor/new', views.new_doctor, name='new_doctor'),
-    # path('doctor/<int:id>/edit', views.edit_doctor, name='edit_doctor'),
-    # path('doctor/<int:id>/delete', views.delete_doctor, name='delete_doctor'),
+    path('doctor/<int:id>/edit', views.edit_doctor, name='edit_doctor'),
+    path('doctor/<int:id>/delete', views.delete_doctor, name='delete_doctor'),
     
     path('researchers/', views.researchers, name='researchers'),
-    # path('researcher/<int:id>', views.researcher, name='researcher'),
-    # path('researcher/new', views.researcher, name='new_researcher'),
-    # path('researcher/<int:id>/edit', views.researcher, name='edit_researcher'),
-    # path('researcher/<int:id>/delete', views.researcher, name='delete_researcher'),
+    path('researcher/<int:id>', views.researcher, name='researcher'),
+    #  path('researcher/new', views.researcher, name='new_researcher'),
+    path('researcher/<int:id>/edit', views.researcher, name='edit_researcher'),
+    path('researcher/<int:id>/delete', views.researcher, name='delete_researcher'),
 
 
      path('appointments/', views.appointments, name='appointments'),
