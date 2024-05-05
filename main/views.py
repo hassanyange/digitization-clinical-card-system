@@ -1,9 +1,12 @@
+from decimal import Decimal
+import json
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
+from django.core import serializers
 
 from main.form import DoctorForm
 from .models import *
@@ -13,19 +16,17 @@ from .forms import *
 # Create your views here.
 @login_required
 def home(request):
-    
+
     user = request.user
     print(user)
     try:
         patient = Patient.objects.get(user=user)
         print("patient foundddddd")
-        return redirect('patients') 
+        return redirect('patients')
     except Patient.DoesNotExist:
         print("Patient dont exist")
         pass
-    
-   
-        
+
     total_appointments = Appointment.objects.count()
     total_patients = Patient.objects.count()
     total_doctors = Doctor.objects.count()
@@ -38,9 +39,9 @@ def home(request):
         'total_patients': total_patients,
         'total_doctors': total_doctors,
         'total_users': total_users,
-        'total_researchers':total_researchers,
-        'totol_childs':totol_childs,
-        'total_appointments':total_appointments,
+        'total_researchers': total_researchers,
+        'totol_childs': totol_childs,
+        'total_appointments': total_appointments,
     }
 
     return render(request, 'index.html', context)
@@ -99,7 +100,7 @@ def profile(request):
 # list all pattients
 @login_required()
 def patients(request):
-    
+
     try:
         if request.user.patient:
             patients_list = Patient.objects.filter(user=request.user)
@@ -108,7 +109,7 @@ def patients(request):
             return render(request, 'patients.html', context)
     except:
         pass
-        
+
     patients_list = Patient.objects.all()
     form = PatientForm()
     if request.method == 'POST':
@@ -118,9 +119,10 @@ def patients(request):
         if User.objects.filter(username=username).exists():
             messages.error(request, 'User already exists')
             return redirect(patients)
-        
+
         if form.is_valid():
-            user  = User.objects.create_user(username=username, email=username, password=password)
+            user = User.objects.create_user(
+                username=username, email=username, password=password)
             user.save()
             data = form.save(commit=False)
             data.user = user
@@ -169,7 +171,6 @@ def new_patient(request):
 
 # edit patient
 @login_required
-
 def edit_patient(request, id):
     patient = get_object_or_404(Patient, id=id)
     if request.method == 'POST':
@@ -180,7 +181,8 @@ def edit_patient(request, id):
     else:
         form = PatientForm(instance=patient)
     return render(request, 'edit_patient.html', {'form': form})
-    
+
+
 @login_required
 def delete_patient(request, id):
     patient = get_object_or_404(Patient, id=id)
@@ -193,8 +195,6 @@ def delete_patient(request, id):
 def doctors(request):
     doctors_list = Doctor.objects.all()
     form = DoctorForm()
-    
-    
 
     if request.method == 'POST':
         form = DoctorForm(request.POST)
@@ -204,7 +204,8 @@ def doctors(request):
             if User.objects.filter(username=username).exists():
                 messages.error(request, 'User already exists')
                 return redirect(doctors)
-            user  = User.objects.create_user(username=username, email=username, password=password)
+            user = User.objects.create_user(
+                username=username, email=username, password=password)
             user.save()
             data = form.save(commit=False)
             data.user = user
@@ -215,10 +216,10 @@ def doctors(request):
     return render(request, 'doctors.html', context)
 
 
-
 def doctor(request, id):
     doctor = get_object_or_404(Doctor, id=id)
     return render(request, 'doctor.html', {'doctor': doctor})
+
 
 def edit_doctor(request, id):
     doctor = get_object_or_404(Doctor, id=id)
@@ -230,6 +231,7 @@ def edit_doctor(request, id):
     else:
         form = DoctorForm(instance=doctor)
     return render(request, 'edit_doctor.html', {'form': form})
+
 
 def delete_doctor(request, id):
     doctor = get_object_or_404(Doctor, id=id)
@@ -252,7 +254,8 @@ def researchers(request):
             if User.objects.filter(username=username).exists():
                 messages.error(request, 'User already exists')
                 return redirect(doctors)
-            user  = User.objects.create_user(username=username, email=username, password=password)
+            user = User.objects.create_user(
+                username=username, email=username, password=password)
             user.save()
             data = form.save(commit=False)
             data.user = user
@@ -267,6 +270,7 @@ def researcher(request, id):
     researcher = get_object_or_404(Researcher, id=id)
     return render(request, 'researcher.html', {'researcher': researcher})
 
+
 def edit_researcher(request, id):
     researcher = get_object_or_404(Researcher, id=id)
     if request.method == 'POST':
@@ -277,6 +281,7 @@ def edit_researcher(request, id):
     else:
         form = ResearcherForm(instance=researcher)
     return render(request, 'edit_researcher.html', {'form': form})
+
 
 def delete_researcher(request, id):
     researcher = get_object_or_404(Researcher, id=id)
@@ -299,7 +304,8 @@ def appointments(request):
             if User.objects.filter(username=username).exists():
                 messages.error(request, 'User already exists')
                 return redirect(appoints)
-            user  = User.objects.create_user(username=username, email=username, password=password)
+            user = User.objects.create_user(
+                username=username, email=username, password=password)
             user.save()
             data = form.save(commit=False)
             data.user = user
@@ -308,8 +314,6 @@ def appointments(request):
             return redirect(researchers)
     context = {'appointments': appointments_list, 'form': form}
     return render(request, 'appointments.html', context)
-
-
 
 
 def pregnance(request, id):
@@ -360,8 +364,35 @@ def pregnance(request, id):
     return render(request, 'pregnance.html', context)
 
 
-
 def child_data(request, id):
-    
-    context={}
+    pregnancy = get_object_or_404(Pregnancy, id=id)
+
+    child_weight, created = ChildWeight.objects.get_or_create(
+        pregnancy=pregnancy)
+        
+    child_weight_data = ChildWeight.objects.filter(id=child_weight.id).values()[0]
+
+    # Transform week keys to age and weight format
+    transformed_data = []
+    for key, value in child_weight_data.items():
+        if key.startswith('week_'):
+            week_number = int(key.split('_')[1])
+            age = week_number
+            weight = float(value) if value is not None else None
+            transformed_data.append({'age': age, 'weight': weight})
+
+    # Convert the queryset to a list and then to JSON
+    json_data = json.dumps(list(transformed_data))
+
+
+    form = ChildWeightForm(instance=child_weight)
+
+    if request.method == "POST" and 'child_weight_form_save' in request.POST:
+        form = ChildWeightForm(request.POST, instance=child_weight)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Child weight saved successfully')
+            return redirect(child_data, id)
+    print(json_data)
+    context = {"weighs": child_weight, "pregnancey": pregnancy, 'form': form, 'weight_data_json':json_data}
     return render(request, 'child_data.html', context)

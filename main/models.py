@@ -156,3 +156,30 @@ class AttendanceReport(models.Model):
     mother_has_been_advised_where_to_deliver = models.BooleanField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+class ChildWeight(models.Model):
+    pregnancy = models.ForeignKey(Pregnancy, on_delete=models.CASCADE)
+    week_1 = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
+    week_3 = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
+    week_6 = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
+    week_9 = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
+    week_12 = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
+    week_15 = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
+    week_18 = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
+    week_21 = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
+    week_24 = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
+    week_27 = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
+    week_30 = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
+    week_33 = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
+    week_36 = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
+    week_39 = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
+    week_42 = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
+    week_45 = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
+    week_48 = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
+    week_51 = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
+    week_54 = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
+    week_57 = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
+    week_60 = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
+
+    def __str__(self):
+        return f"Child Weight for Pregnancy {self.pregnancy}"

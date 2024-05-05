@@ -41,6 +41,32 @@
                            </div>
 
 
+
+                           <div class="container">
+                              <div class="formr">
+                                 <form action="" method="POST">
+
+                                 <div class="d-flex flex-wrap">
+                                    {% csrf_token %}
+
+                                     
+                                    {% for field in form %}
+                                    <div class="col-md-2">
+                                             <div class="form-group p-1">
+                                             {{field.label}}
+                                             {{ field }}
+                                             </div>
+                                    </div>
+                                    {% endfor %}
+                                    <br>
+                                    <button type="submit" name="child_weight_form_save" class="btn btn-primary">SAVE</button>
+                                       
+                                    
+                                 </div>
+                              </form>
+
+                              </div>
+                           </div>
                         </div>
                      </div>
                   </div>
@@ -81,30 +107,15 @@
 
 
    <script>
+
+      console.log(JSON.parse('{{ weight_data_json|escapejs }}'));
+      console.log("jj")
+
     // Data for children's weight growth from age 0 to 15 months
-    var weightData = [
-  { age: 0, weight: 3.4 },
-  { age: 3, weight: 5.5 },
-  { age: 6, weight: 7.8 },
-  { age: 9, weight: 9.2 },
-  { age: 12, weight: 10.8 },
-  { age: 15, weight: 12.5 },
-  { age: 18, weight: 13.9 },
-  { age: 21, weight: 15.2 },
-  { age: 24, weight: 16.7 },
-  { age: 27, weight: 18.2 },
-  { age: 30, weight: 19.5 },
-  { age: 33, weight: 20 },
-  { age: 36, weight: 20 },
-  { age: 39, weight: 20 },
-  { age: 42, weight: 20 },
-  { age: 45, weight: 20 },
-  { age: 48, weight: 20 },
-  { age: 51, weight: 20 },
-  { age: 54, weight: 20 },
-  { age: 57, weight: 20 },
-  { age: 60, weight: 20 }
-];
+    var weightData = JSON.parse('{{ weight_data_json|escapejs }}');
+
+    // Now you can use weightData in your JavaScript code
+    console.log(weightData);
 
 
     // Extracting data for x-axis and y-axis

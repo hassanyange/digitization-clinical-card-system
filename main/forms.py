@@ -1,5 +1,5 @@
 from django import forms
-from main.models import Doctor, FirstTimePatientInfo,Appointment, Researcher, LaboratoryMeasurement, Patient, Pregnancy, PreviousPregnancyInfo
+from main.models import ChildWeight, Doctor, FirstTimePatientInfo,Appointment, Researcher, LaboratoryMeasurement, Patient, Pregnancy, PreviousPregnancyInfo
 from django.contrib.auth.models import User
 
 class AccountDetailsForm(forms.ModelForm):
@@ -126,3 +126,37 @@ class LaboratoryMeasurementForm(BootstrapFormMixin, forms.ModelForm):
     class Meta:
         model = LaboratoryMeasurement
         exclude = ['pregnancy']
+
+
+
+
+class ChildWeightForm(forms.ModelForm):
+    class Meta:
+        model = ChildWeight
+        fields = ['week_1', 'week_3', 'week_6', 'week_9', 'week_12', 'week_15',
+                  'week_18', 'week_21', 'week_24', 'week_27', 'week_30', 'week_33', 'week_36',
+                  'week_39', 'week_42', 'week_45', 'week_48', 'week_51', 'week_54', 'week_57',
+                  'week_60']
+        widgets = {
+            'week_1': forms.NumberInput(attrs={'class': 'form-control'}),
+            'week_3': forms.NumberInput(attrs={'class': 'form-control'}),
+            'week_6': forms.NumberInput(attrs={'class': 'form-control'}),
+            'week_9': forms.NumberInput(attrs={'class': 'form-control'}),
+            'week_12': forms.NumberInput(attrs={'class': 'form-control'}),
+            'week_15': forms.NumberInput(attrs={'class': 'form-control'}),
+            'week_18': forms.NumberInput(attrs={'class': 'form-control'}),
+            'week_21': forms.NumberInput(attrs={'class': 'form-control'}),
+            'week_24': forms.NumberInput(attrs={'class': 'form-control'}),
+            'week_27': forms.NumberInput(attrs={'class': 'form-control'}),
+            'week_30': forms.NumberInput(attrs={'class': 'form-control'}),
+            'week_33': forms.NumberInput(attrs={'class': 'form-control'}),
+            'week_36': forms.NumberInput(attrs={'class': 'form-control'}),
+            'week_39': forms.NumberInput(attrs={'class': 'form-control'}),
+            'week_42': forms.NumberInput(attrs={'class': 'form-control'}),
+            'week_45': forms.NumberInput(attrs={'class': 'form-control'}),
+            'week_48': forms.NumberInput(attrs={'class': 'form-control'}),
+            'week_51': forms.NumberInput(attrs={'class': 'form-control'}),
+            'week_54': forms.NumberInput(attrs={'class': 'form-control'}),
+            'week_57': forms.NumberInput(attrs={'class': 'form-control'}),
+            'week_60': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
