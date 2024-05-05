@@ -30,9 +30,9 @@ urlpatterns = [
     path('researcher/<int:id>/delete', views.researcher, name='delete_researcher'),
 
 
-     path('appointments/', views.appointments, name='appointments'),
+    path('appointments/', views.appointments, name='appointments'),
     # path('appointment/<int:id>', views.appointment, name='appointment'),
-    # path('appointment/new', views.appointment, name='new_appointment'),
+    #  path('appointment/new', views.appointment, name='new_appointment'),
     # path('appointment/<int:id>/edit', views.appointment, name='edit_appointmentr'),
     # path('appointment/<int:id>/delete', views.appointment, name='delete_appointment'),
 
