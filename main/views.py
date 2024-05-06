@@ -316,6 +316,29 @@ def appointments(request):
     return render(request, 'appointments.html', context)
 
 
+
+def appointment(request, id):
+    appointment = get_object_or_404(Appointment, id=id)
+    return render(request, 'appointment.html', {'appointment': appointment})
+
+def edit_appointment(request, id):
+    appointment = get_object_or_404(Appointment, id=id)
+    form = AppointmentForm(request.POST or None, instance=appointment)
+    if form.is_valid():
+        form.save()
+        return redirect('appointment', id=id)
+    return render(request, 'edit_appointment.html', {'form': form})
+
+def delete_appointment(request, id):
+    appointment = get_object_or_404(Appointment, id=id)
+    if request.method == 'POST':
+        appointment.delete()
+        return redirect('appointments')
+    return render(request, 'delete_appointment.html', {'appointment': appointment})
+
+
+
+
 def pregnance(request, id):
     pregnancey = get_object_or_404(Pregnancy, id=id)
     first_tm, _ = FirstTimePatientInfo.objects.get_or_create(
@@ -324,9 +347,12 @@ def pregnance(request, id):
         pregnancy=pregnancey)
     labaratory_tm, _ = LaboratoryMeasurement.objects.get_or_create(
         pregnancy=pregnancey)
+    attendance_tm, _ = AttendanceReport.objects.get_or_create(
+        pregnancy=pregnancey)    
     first_pregnance_form = FirstTimePatientInfoForm(instance=first_tm)
     previous_pregnancies_form = PreviousPregnancyInfoForm(instance=previous_tm)
     labaratory_info_form = LaboratoryMeasurementForm(instance=labaratory_tm)
+    attendance_report_form = AttendanceReportForm(instance=attendance_tm)
 
     if request.method == "POST" and 'first_pregnancy_form_save' in request.POST:
         first_pregnance_form = FirstTimePatientInfoForm(
@@ -354,12 +380,22 @@ def pregnance(request, id):
             labaratory_info_form.save()
             messages.success(request, 'Labaratory info saved successfully')
             return redirect(pregnance, id)
+    
+    
+    if request.method == "POST" and 'attendance_report_form_save' in request.POST:
+        attendance_report_form = AttendanceReportForm(
+            request.POST, instance=attendance_tm)
+        if attendance_report_form.is_valid():
+            attendance_report_form.save()
+            messages.success(request, 'Attendance saved successfully')
+            return redirect(pregnance, id)
 
     context = {
         'pregnancey': pregnancey,
         'first_pregnance_form': first_pregnance_form,
         'previous_pregnancies_form': previous_pregnancies_form,
-        'labaratory_info_form': labaratory_info_form
+        'labaratory_info_form': labaratory_info_form,
+        'attendance_report_form': attendance_report_form
     }
     return render(request, 'pregnance.html', context)
 

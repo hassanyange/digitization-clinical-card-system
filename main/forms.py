@@ -1,5 +1,5 @@
 from django import forms
-from main.models import ChildWeight, Doctor, FirstTimePatientInfo,Appointment, Researcher, LaboratoryMeasurement, Patient, Pregnancy, PreviousPregnancyInfo
+from main.models import ChildWeight, Doctor, FirstTimePatientInfo,Appointment, AttendanceReport, Researcher, LaboratoryMeasurement, Patient, Pregnancy, PreviousPregnancyInfo
 from django.contrib.auth.models import User
 
 class AccountDetailsForm(forms.ModelForm):
@@ -127,7 +127,10 @@ class LaboratoryMeasurementForm(BootstrapFormMixin, forms.ModelForm):
         model = LaboratoryMeasurement
         exclude = ['pregnancy']
 
-
+class AttendanceReportForm(BootstrapFormMixin, forms.ModelForm):
+    class Meta:
+        model = AttendanceReport
+        exclude = ['pregnacy']
 
 
 class ChildWeightForm(forms.ModelForm):

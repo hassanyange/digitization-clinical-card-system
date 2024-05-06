@@ -56,10 +56,15 @@
                                                     <td>{{ appointment.appointment_date }}</td>
                                                     <td>{{ appointment.status }}</td>
                                                     <td>
-                                                       <a href=""><i class="fa-regular fa-eye"></i></a>
-                                                        <a href="#" class="btn btn-warning">Edit</a> 
-                                                        <a href="#" class="btn btn-danger">Delete</a> 
+                                                       <!-- <a href="{% url 'appointment' appointment.id %}"><i class="fa-regular fa-eye"></i></a>
+                                                        <a href="{% url 'edit_appointment' appointment.id %}" class="btn btn-warning">Edit</a> 
+                                                        <a href="{% url 'delete_appointment' appointment.id %}" class="btn btn-danger">Delete</a> 
+                                                         -->
+                                                        <a href=""><i class="fa-regular fa-eye"></i></a>
+                                                        <a href="" class="btn btn-warning">Edit</a> 
+                                                        <a href="" class="btn btn-danger">Delete</a> 
                                                         
+
                                                     </td>
                                                 </tr>
                                             {% endfor %}

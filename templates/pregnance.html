@@ -83,7 +83,14 @@
         <li class="nav-item" role="presentation">
           <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Laboratory Measurements</button>
         </li>
+
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="pills-about-tab" data-bs-toggle="pill" data-bs-target="#pills-about" type="button" role="tab" aria-controls="pills-about" aria-selected="false">Attendance Report </button>
+        </li>
       </ul>
+
+      
+    
       <div class="tab-content" id="pills-tabContent">
         <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
             <form action="" method="post">
@@ -160,6 +167,32 @@
             </form>
 
         </div>
+
+        <div class="tab-pane fade" id="pills-about" role="tabpanel" aria-labelledby="pills-about-tab">
+
+          <form action="" method="post">
+              {% csrf_token %}
+              
+              <div class="d-flex flex-wrap">
+                  {% for field in attendance_report_form %}
+                  <div class="col-md-4">
+                      <div class="form-group m-1">
+                         {{ field.label }}
+                         {{ field }}
+                      </div>
+                  </div>
+                  {% endfor %}
+              </div>
+              <br>
+              {% if not request.user.patient %}
+              <button type="submit" name="attendance_report_form_save" class="btn btn-primary">
+                  Save Changes
+              </button>
+              {% endif %}
+          </form>
+
+      </div>
+
       </div>
       <br>
       <button class="btn btn btn-success"><a class="text-white text-decoration-none" href="{% url 'child-data' 1 %}">CHILD GRAPH</a></button>

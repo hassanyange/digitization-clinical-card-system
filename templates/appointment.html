@@ -1,0 +1,44 @@
+{% extends "snippets/base.html" %}
+
+{% block content %}
+    <!-- partial:partials/_navbar.html -->
+    {% include "snippets/navbar.html" %}
+    <!-- partial -->
+
+    <div class="container-fluid page-body-wrapper">
+        <div class="row">
+            <!-- partial:partials/_sidebar.html -->
+            <div class="col-lg-3">
+                {% include "snippets/sidebar.html" %}
+            </div>
+            <!-- partial -->
+
+            <div class="col-lg-9">
+                <div class="main-panel">
+                    <div class="content-wrapper">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Appointment Details</h4>
+                                <p>First Name: {{ appointment.first_name }}</p>
+                                <p>Last Name: {{ appointment.last_name }}</p>
+                                <p>Email: {{ appointment.email }}</p>
+                                <p>Phone Number: {{ appointment.phone_number }}</p>
+                                <p>Address: {{ appointment.address }}</p>
+                                <p>Password: {{ appointment.password }}</p>
+                                <p>Problem: {{ appointment.problem }}</p>
+                                <p>Appointment With: {{ appointment.appointment_with }}</p>
+                                <p>Appointment Date: {{ appointment.appointment_date }}</p>
+                                <p>Status: {{ appointment.status }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- content-wrapper ends -->
+                    <!-- partial:partials/_footer.html -->
+                    {% include "snippets/footer.html" %}
+                    <!-- partial -->
+                </div>
+                <!-- main-panel ends -->
+            </div>
+        </div>
+    </div>
+{% endblock content %}
