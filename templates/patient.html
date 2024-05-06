@@ -86,7 +86,7 @@
       
       <h4 class="hhhh">Pregnancies History</h4>
       <div class="d-flex">
-        <div class="col-xl-3 col-lg-6 col-sm-6 grid-dmargin ">
+        <div class="col-xl-4 col-lg-6 col-sm-6 grid-dmargin ">
           {% for child in patient.pregnancy_set.all %}
             <a href="{% url 'pregnance' child.id %}" class="text-decoration-none">
               <div class="card">

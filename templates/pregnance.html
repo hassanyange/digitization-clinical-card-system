@@ -73,6 +73,9 @@
       </div>
 
 
+    <!-- mothers info -->
+
+      <h1 class="text-center" >Mother's Information</h1>
       <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
         <li class="nav-item" role="presentation">
           <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">For First Attendance</button>
@@ -85,7 +88,7 @@
         </li>
 
         <li class="nav-item" role="presentation">
-          <button class="nav-link" id="pills-about-tab" data-bs-toggle="pill" data-bs-target="#pills-about" type="button" role="tab" aria-controls="pills-about" aria-selected="false">Attendance Report </button>
+          <button class="nav-link" id="pills-about-tab" data-bs-toggle="pill" data-bs-target="#pills-about" type="button" role="tab" aria-controls="pills-about" aria-selected="false">Attendance Report  </button>
         </li>
       </ul>
 
@@ -194,6 +197,111 @@
       </div>
 
       </div>
+
+
+                                          <!-- Child info -->
+
+
+                                          
+ <h1 class="text-center" >Child's Information</h1>
+      <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="pills-1-tab" data-bs-toggle="pill" data-bs-target="#pills-1" type="button" role="tab" aria-controls="pills-1" aria-selected="true">Vaccine</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="pills-2-tab" data-bs-toggle="pill" data-bs-target="#pills-2" type="button" role="tab" aria-controls="pills-2" aria-selected="false">First attendance</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="pills-3-tab" data-bs-toggle="pill" data-bs-target="#pills-3" type="button" role="tab" aria-controls="pills-3" aria-selected="false">Child Monitoring 0 to 42 days</button>
+        </li>
+
+        
+      </ul>
+
+      
+    
+      <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="pills-1" role="tabpanel" aria-labelledby="pills-1-tab">
+            <form action="" method="post">
+                {% csrf_token %}
+                
+                <div class="d-flex flex-wrap">
+                    {% for field in first_attendance_form %}
+                    <div class="col-md-4">
+                        <div class="form-group m-1">
+                           {{ field.label }}
+                           {{ field }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <br>
+                
+                
+                {% if not request.user.patient %}
+                <button type="submit" name="first_attendance_form_save" class="btn btn-primary">
+                    Save Changes
+                </button>
+                {% endif %}
+
+
+            </form>
+        </div>
+        <div class="tab-pane fade" id="pills-2" role="tabpanel" aria-labelledby="pills-2-tab">
+
+            <form action="" method="post">
+                {% csrf_token %}
+                
+                <div class="d-flex flex-wrap">
+                    {% for field in vaccine_form %}
+                    <div class="col-md-4">
+                        <div class="form-group m-1">
+                           {{ field.label }}
+                           {{ field }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <br>
+                
+                {% if not request.user.patient %}
+                <button type="submit" name="vaccine_form_save" class="btn btn-primary">
+                    Save Changes
+                </button>
+                {% endif %}
+            </form>
+
+        </div>
+        <div class="tab-pane fade" id="pills-3" role="tabpanel" aria-labelledby="pills-3-tab">
+
+            <form action="" method="post">
+                {% csrf_token %}
+                
+                <div class="d-flex flex-wrap">
+                    {% for field in attendance_monitor_form %}
+                    <div class="col-md-4">
+                        <div class="form-group m-1">
+                           {{ field.label }}
+                           {{ field }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <br>
+                {% if not request.user.patient %}
+                <button type="submit" name="attendance_monitor_form_save" class="btn btn-primary">
+                    Save Changes
+                </button>
+                {% endif %}
+            </form>
+
+        </div>
+
+      
+              
+      </div>
+
+
       <br>
       <button class="btn btn btn-success"><a class="text-white text-decoration-none" href="{% url 'child-data' 1 %}">CHILD GRAPH</a></button>
       

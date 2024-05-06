@@ -1,5 +1,5 @@
 from django import forms
-from main.models import ChildWeight, Doctor, FirstTimePatientInfo,Appointment, AttendanceReport, Researcher, LaboratoryMeasurement, Patient, Pregnancy, PreviousPregnancyInfo
+from main.models import ChildWeight, Doctor, FirstTimePatientInfo,Appointment,ChildFirstAttendence, ChildMonitoringAttendance, ChildVaccineInfo, AttendanceReport, Researcher, LaboratoryMeasurement, Patient, Pregnancy, PreviousPregnancyInfo
 from django.contrib.auth.models import User
 
 class AccountDetailsForm(forms.ModelForm):
@@ -98,7 +98,15 @@ class PregnancyForm(forms.ModelForm):
 
         widgets = {
             'baby_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'gender': forms.TextInput(attrs={'class': 'form-control'}),
+            'father_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'birth_place': forms.TextInput(attrs={'class': 'form-control'}),
+            'residence': forms.TextInput(attrs={'class': 'form-control'}),
+            'birth_weight': forms.NumberInput(attrs={'class': 'form-control'}),
             'pregnancy_number': forms.NumberInput(attrs={'class': 'form-control'}),
+            'child_number': forms.NumberInput(attrs={'class': 'form-control'}),
+            'date_of_birth': forms.TextInput(attrs={'class': 'form-control'}),
+            
         }
 
 class BootstrapFormMixin(forms.ModelForm):
@@ -131,6 +139,29 @@ class AttendanceReportForm(BootstrapFormMixin, forms.ModelForm):
     class Meta:
         model = AttendanceReport
         exclude = ['pregnacy']
+
+
+# NEW FORMS NEW FORMS 
+
+
+class ChildFirstAttendenceForm(BootstrapFormMixin, forms.ModelForm):
+    class Meta:
+        model = ChildFirstAttendence
+        exclude = ['pregnancy']
+
+class ChildVaccineInfoForm(BootstrapFormMixin, forms.ModelForm):
+    class Meta:
+        model = ChildVaccineInfo
+        exclude = ['pregnancy']
+
+class ChildMonitoringAttendanceForm(BootstrapFormMixin, forms.ModelForm):
+    class Meta:
+        model = ChildMonitoringAttendance
+        exclude = ['pregnacy']
+
+
+
+
 
 
 class ChildWeightForm(forms.ModelForm):

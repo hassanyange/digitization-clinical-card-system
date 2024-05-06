@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 gender_choices = (("MALE", "MALE"), ("FEMALE", "FEMALE"))
+navel = (("healed", "healed"), ("redish", "redish"), ("gives off smell", "gives off smell"))
 height_choices = (("UP TO 150", "UP TO 150"), ("BELOW 150", "BELOW 150"))
 advice = ((""))
 positions = (("Doctor", "Doctor"), ("Nurse", "Nurse"), ("Pharmacist", "Pharmacist"), ("Lab Technician", "Lab Technician"),)
@@ -90,7 +91,14 @@ class Patient(models.Model):
     
 class Pregnancy(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    child_number = models.IntegerField(default=1)
+    gender = models.CharField(max_length=10, choices=gender_choices, default='MALE')
+    date_of_birth = models.DateTimeField( default='2024-01-01' )
+    birth_weight = models.IntegerField(default=1)
+    birth_place = models.CharField(max_length=200, choices=(("Hospital", "Hospital"), ("Home", "Home"), ("Others", "Others")),  null=True, blank=True)
     baby_name = models.CharField(max_length=200, blank=True, null=True)
+    father_name = models.CharField(max_length=200, blank=True, null=True)
+    residence =  models.CharField(max_length=200, blank=True, null=True)
     pregnancy_number = models.IntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -169,6 +177,48 @@ class AttendanceReport(models.Model):
     mother_has_been_advised_where_to_deliver = models.BooleanField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+
+
+    # NEW MODELS      # NEW MODELS
+
+class ChildVaccineInfo(models.Model):
+    pregnancy = models.ForeignKey(Pregnancy, on_delete=models.CASCADE, default=None, null=True)
+    bcg_tuberclosis_injection_right_shoulder = models.DateField(default='2024-01-01')
+    polio_mouth_droplets = models.DateField(default='2024-01-01')
+    DPT_HB1_injection_left_thigh= models.DateField(default='2024-01-01')
+    measles_injection_right_thigh   = models.DateField(default='2024-01-01')
+    vitamin_A_mouth_droplets = models.DateField(default='2024-01-01')  
+    rota = models.DateField(default='2024-01-01') 
+    pmeumoccocal = models.DateField(default='2024-01-01') 
+
+
+class ChildFirstAttendence(models.Model):
+    pregnancy = models.ForeignKey(Pregnancy, on_delete=models.CASCADE, default=None, null=True)
+    birth_weight_below_2500grams  = models.BooleanField(null=True, blank=True)
+    fourth_child_or_more = models.BooleanField(null=True, blank=True)
+    twin = models.BooleanField(null=True, blank=True)
+    orphan = models.BooleanField(null=True, blank=True)
+    death_of_siblings_under_age_of_5 = models.BooleanField(null=True, blank=True)
+
+class ChildMonitoringAttendance(models.Model):
+    pregnancy = models.ForeignKey(Pregnancy, on_delete=models.CASCADE, default=None, null=True)
+    date = models.DateTimeField( default='2024-01-01' )
+    anemia = models.BooleanField(null=True, blank=True)
+    body_temperature = models.CharField(max_length=200,  null=True, blank=True)
+    mothers_milk = models.BooleanField(null=True, blank=True)
+    milk_substitute = models.BooleanField(null=True, blank=True)
+    motor_skills_improvement = models.BooleanField(null=True, blank=True)
+    white_lining_of_the_mouth = models.BooleanField(null=True, blank=True)
+    eyes_weaken = models.BooleanField(null=True, blank=True)
+    navel =models.CharField(max_length=200, choices=navel)
+    rashes_with_pus = models.BooleanField(null=True, blank=True)
+    yellowish_skin = models.BooleanField(null=True, blank=True)
+
+ 
+
+
+
 
 class ChildWeight(models.Model):
     pregnancy = models.ForeignKey(Pregnancy, on_delete=models.CASCADE)
