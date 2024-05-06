@@ -363,27 +363,30 @@ def pregnance(request, id):
     }
     return render(request, 'pregnance.html', context)
 
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Pregnancy, ChildWeight
+from .forms import ChildWeightForm
+from django.contrib import messages
+import json
 
 def child_data(request, id):
     pregnancy = get_object_or_404(Pregnancy, id=id)
+    child_weight, created = ChildWeight.objects.get_or_create(pregnancy=pregnancy)
+    
+    # Get child weight data for the current pregnancy
+    child_weight_data = ChildWeight.objects.filter(id=child_weight.id).values().first()
 
-    child_weight, created = ChildWeight.objects.get_or_create(
-        pregnancy=pregnancy)
-        
-    child_weight_data = ChildWeight.objects.filter(id=child_weight.id).values()[0]
-
-    # Transform week keys to age and weight format
+    # Transform month keys to age and weight format
     transformed_data = []
     for key, value in child_weight_data.items():
-        if key.startswith('week_'):
-            week_number = int(key.split('_')[1])
-            age = week_number
+        if key.startswith('month_'):
+            month_number = int(key.split('_')[1])
+            age = month_number
             weight = float(value) if value is not None else None
             transformed_data.append({'age': age, 'weight': weight})
 
-    # Convert the queryset to a list and then to JSON
+    # Convert the queryset to JSON
     json_data = json.dumps(list(transformed_data))
-
 
     form = ChildWeightForm(instance=child_weight)
 
@@ -392,7 +395,7 @@ def child_data(request, id):
         if form.is_valid():
             form.save()
             messages.success(request, 'Child weight saved successfully')
-            return redirect(child_data, id)
-    print(json_data)
-    context = {"weighs": child_weight, "pregnancey": pregnancy, 'form': form, 'weight_data_json':json_data}
+            return redirect('child-data', id=id)
+
+    context = {"weighs": child_weight, "pregnancy": pregnancy, 'form': form, 'weight_data_json': json_data}
     return render(request, 'child_data.html', context)
