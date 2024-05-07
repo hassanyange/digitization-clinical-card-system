@@ -5,7 +5,7 @@ gender_choices = (("MALE", "MALE"), ("FEMALE", "FEMALE"))
 navel = (("healed", "healed"), ("redish", "redish"), ("gives off smell", "gives off smell"))
 height_choices = (("UP TO 150", "UP TO 150"), ("BELOW 150", "BELOW 150"))
 advice = ((""))
-positions = (("Doctor", "Doctor"), ("Nurse", "Nurse"), ("Pharmacist", "Pharmacist"), ("Lab Technician", "Lab Technician"),)
+positions = (("Doctor", "Doctor"), ("Nurse", "Nurse"), ("Pharmacist", "Pharmacist"), ("Medical Lab", "Medical Lab"),)
 
 class Role(models.Model):
     name = models.CharField(max_length=50)
@@ -75,7 +75,7 @@ class Patient(models.Model):
     phone_number = models.CharField(max_length=15)
     email = models.EmailField()
     password = models.CharField(max_length=50)
-    image = models.ImageField(upload_to='patients', null=True, blank=True)
+    image = models.ImageField(upload_to='static/assets/images', null=True, blank=True)
     husband_name = models.CharField(max_length=200, blank=True, null=True)
     height = models.CharField(max_length=110, null=True, choices=height_choices)
     occupation = models.CharField(max_length=200, blank=True, null=True)

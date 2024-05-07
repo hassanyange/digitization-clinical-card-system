@@ -283,6 +283,11 @@ def edit_researcher(request, id):
     return render(request, 'edit_researcher.html', {'form': form})
 
 
+
+
+
+
+
 def delete_researcher(request, id):
     researcher = get_object_or_404(Researcher, id=id)
     if request.method == 'POST':
@@ -341,63 +346,67 @@ def delete_appointment(request, id):
 
 def pregnance(request, id):
     pregnancey = get_object_or_404(Pregnancy, id=id)
-    first_tm, _ = FirstTimePatientInfo.objects.get_or_create(
-        pregnancy=pregnancey)
-    previous_tm, _ = PreviousPregnancyInfo.objects.get_or_create(
-        pregnancy=pregnancey)
-    labaratory_tm, _ = LaboratoryMeasurement.objects.get_or_create(
-        pregnancy=pregnancey)
-    attendance_tm, _ = AttendanceReport.objects.get_or_create(
-        pregnancy=pregnancey)    
+    
+    # Handling child monitoring forms
+    if request.method == "POST":
+        # Child first attendance form
+        if 'first_attendance_form_save' in request.POST:
+            first_attendance_instance, _ = ChildFirstAttendence.objects.get_or_create(pregnancy=pregnancey)
+            first_attendance_form = ChildFirstAttendenceForm(request.POST, instance=first_attendance_instance)
+            if first_attendance_form.is_valid():
+                first_attendance_form.save()
+                messages.success(request, 'First time child info saved successfully')
+                return redirect('pregnance', id)
+        # Child vaccine info form
+        elif 'vaccine_form_save' in request.POST:
+            vaccine_instance, _ = ChildVaccineInfo.objects.get_or_create(pregnancy=pregnancey)
+            vaccine_form = ChildVaccineInfoForm(request.POST, instance=vaccine_instance)
+            if vaccine_form.is_valid():
+                vaccine_form.save()
+                messages.success(request, 'Vaccine info saved successfully')
+                return redirect('pregnance', id)
+        # Child monitoring attendance form
+        elif 'attendance_monitor_form_save' in request.POST:
+            attendance_instance, _ = ChildMonitoringAttendance.objects.get_or_create(pregnancy=pregnancey)
+            attendance_monitor_form = ChildMonitoringAttendanceForm(request.POST, instance=attendance_instance)
+            if attendance_monitor_form.is_valid():
+                attendance_monitor_form.save()
+                messages.success(request, 'Attendance saved successfully')
+                return redirect('pregnance', id)
+    else:
+        # Form instances for child monitoring
+        first_attendance_instance, _ = ChildFirstAttendence.objects.get_or_create(pregnancy=pregnancey)
+        first_attendance_form = ChildFirstAttendenceForm(instance=first_attendance_instance)
+        
+        vaccine_instance, _ = ChildVaccineInfo.objects.get_or_create(pregnancy=pregnancey)
+        vaccine_form = ChildVaccineInfoForm(instance=vaccine_instance)
+        
+        attendance_instance, _ = ChildMonitoringAttendance.objects.get_or_create(pregnancy=pregnancey)
+        attendance_monitor_form = ChildMonitoringAttendanceForm(instance=attendance_instance)
+
+    # Form instances for pregnancy related info
+    first_tm, _ = FirstTimePatientInfo.objects.get_or_create(pregnancy=pregnancey)
+    previous_tm, _ = PreviousPregnancyInfo.objects.get_or_create(pregnancy=pregnancey)
+    labaratory_tm, _ = LaboratoryMeasurement.objects.get_or_create(pregnancy=pregnancey)
+    attendance_tm, _ = AttendanceReport.objects.get_or_create(pregnancy=pregnancey)    
     first_pregnance_form = FirstTimePatientInfoForm(instance=first_tm)
     previous_pregnancies_form = PreviousPregnancyInfoForm(instance=previous_tm)
     labaratory_info_form = LaboratoryMeasurementForm(instance=labaratory_tm)
     attendance_report_form = AttendanceReportForm(instance=attendance_tm)
 
-    if request.method == "POST" and 'first_pregnancy_form_save' in request.POST:
-        first_pregnance_form = FirstTimePatientInfoForm(
-            request.POST, instance=first_tm)
-        print("Hello.....................................................hello")
-        if first_pregnance_form.is_valid():
-            first_pregnance_form.save()
-            messages.success(
-                request, 'First time patient info saved successfully')
-            return redirect(pregnance, id)
-
-    if request.method == "POST" and 'previous_pregnancies_form_save' in request.POST:
-        previous_pregnancies_form = PreviousPregnancyInfoForm(
-            request.POST, instance=previous_tm)
-        if previous_pregnancies_form.is_valid():
-            previous_pregnancies_form.save()
-            messages.success(
-                request, 'Previous pregnancies info saved successfully')
-            return redirect(pregnance, id)
-
-    if request.method == "POST" and 'labaratory_info_form_save' in request.POST:
-        labaratory_info_form = LaboratoryMeasurementForm(
-            request.POST, instance=labaratory_tm)
-        if labaratory_info_form.is_valid():
-            labaratory_info_form.save()
-            messages.success(request, 'Labaratory info saved successfully')
-            return redirect(pregnance, id)
-    
-    
-    if request.method == "POST" and 'attendance_report_form_save' in request.POST:
-        attendance_report_form = AttendanceReportForm(
-            request.POST, instance=attendance_tm)
-        if attendance_report_form.is_valid():
-            attendance_report_form.save()
-            messages.success(request, 'Attendance saved successfully')
-            return redirect(pregnance, id)
-
+    # Set up context
     context = {
         'pregnancey': pregnancey,
         'first_pregnance_form': first_pregnance_form,
         'previous_pregnancies_form': previous_pregnancies_form,
         'labaratory_info_form': labaratory_info_form,
-        'attendance_report_form': attendance_report_form
+        'attendance_report_form': attendance_report_form,
+        'first_attendance_form': first_attendance_form,
+        'vaccine_form': vaccine_form,
+        'attendance_monitor_form': attendance_monitor_form
     }
     return render(request, 'pregnance.html', context)
+
 
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Pregnancy, ChildWeight
@@ -437,41 +446,41 @@ def child_data(request, id):
     return render(request, 'child_data.html', context)
 
     # NEW VIEW
-def child_monitor(request, id):
-    pregnancey = get_object_or_404(Pregnancy, id=id)
+# def child_monitor(request, id):
+#     pregnancey = get_object_or_404(Pregnancy, id=id)
     
-    first_attendance_instance, _ = ChildFirstAttendence.objects.get_or_create(pregnancy=pregnancy)
-    vaccine_instance, _ = ChildVaccineInfo.objects.get_or_create(pregnancy=pregnancy)
-    attendance_instance, _ = ChildMonitoringAttendance.objects.get_or_create(pregnancy=pregnancy)    
+#     first_attendance_instance, _ = ChildFirstAttendence.objects.get_or_create(pregnancy=pregnancy)
+#     vaccine_instance, _ = ChildVaccineInfo.objects.get_or_create(pregnancy=pregnancy)
+#     attendance_instance, _ = ChildMonitoringAttendance.objects.get_or_create(pregnancy=pregnancy)    
     
-    if request.method == "POST":
-        if 'first_attendance_form_save' in request.POST:
-            first_attendance_form = ChildFirstAttendenceForm(request.POST, instance=first_attendance_instance)
-            if first_attendance_form.is_valid():
-                first_attendance_form.save()
-                messages.success(request, 'First time child info saved successfully')
-                return redirect('pregnance', id=id)
-        elif 'vaccine_form_save' in request.POST:
-            vaccine_form = ChildVaccineInfoForm(request.POST, instance=vaccine_instance)
-            if vaccine_form.is_valid():
-                vaccine_form.save()
-                messages.success(request, 'Vaccine info saved successfully')
-                return redirect('pregnance', id=id)
-        elif 'attendance_monitor_form_save' in request.POST:
-            attendance_monitor_form = ChildMonitoringAttendanceForm(request.POST, instance=attendance_instance)
-            if attendance_monitor_form.is_valid():
-                attendance_monitor_form.save()
-                messages.success(request, 'Attendance saved successfully')
-                return redirect('pregnance', id=id)
-    else:
-        first_attendance_form = ChildFirstAttendenceForm(instance=first_attendance_instance)
-        vaccine_form = ChildVaccineInfoForm(instance=vaccine_instance)
-        attendance_monitor_form = ChildMonitoringAttendanceForm(instance=attendance_instance)
+#     if request.method == "POST":
+#         if 'first_attendance_form_save' in request.POST:
+#             first_attendance_form = ChildFirstAttendenceForm(request.POST, instance=first_attendance_instance)
+#             if first_attendance_form.is_valid():
+#                 first_attendance_form.save()
+#                 messages.success(request, 'First time child info saved successfully')
+#                 return redirect('pregnance', id)
+#         elif 'vaccine_form_save' in request.POST:
+#             vaccine_form = ChildVaccineInfoForm(request.POST, instance=vaccine_instance)
+#             if vaccine_form.is_valid():
+#                 vaccine_form.save()
+#                 messages.success(request, 'Vaccine info saved successfully')
+#                 return redirect('pregnance', id)
+#         elif 'attendance_monitor_form_save' in request.POST:
+#             attendance_monitor_form = ChildMonitoringAttendanceForm(request.POST, instance=attendance_instance)
+#             if attendance_monitor_form.is_valid():
+#                 attendance_monitor_form.save()
+#                 messages.success(request, 'Attendance saved successfully')
+#                 return redirect('pregnance', id)
+#     else:
+#         first_attendance_form = ChildFirstAttendenceForm(instance=first_attendance_instance)
+#         vaccine_form = ChildVaccineInfoForm(instance=vaccine_instance)
+#         attendance_monitor_form = ChildMonitoringAttendanceForm(instance=attendance_instance)
 
-    context = {
-        'pregnancey': pregnancey,
-        'first_attendance_form': first_attendance_form,
-        'vaccine_form': vaccine_form,
-        'attendance_monitor_form': attendance_monitor_form
-    }
-    return render(request, 'pregnance.html', context)
+#     context = {
+#         'pregnancey': pregnancey,
+#         'first_attendance_form': first_attendance_form,
+#         'vaccine_form': vaccine_form,
+#         'attendance_monitor_form': attendance_monitor_form
+#     }
+#     return render(request, 'pregnance.html', context)

@@ -38,7 +38,7 @@ urlpatterns = [
 
     path('patient/pregnance/<str:id>/', views.pregnance, name='pregnance'),
     path('child-data/<str:id>/', views.child_data, name='child-data'),
-    path('child-monitor/<str:id>/', views.child_monitor, name='child-monitor'),
+   
     
     
 ]
