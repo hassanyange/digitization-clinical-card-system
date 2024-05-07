@@ -91,10 +91,10 @@ class Patient(models.Model):
     
 class Pregnancy(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
-    child_number = models.IntegerField(default=1)
+    child_number = models.CharField(max_length=15)
     gender = models.CharField(max_length=10, choices=gender_choices, default='MALE')
     date_of_birth = models.DateTimeField( default='2024-01-01' )
-    birth_weight = models.IntegerField(default=1)
+    birth_weight = models.CharField(max_length=15)
     birth_place = models.CharField(max_length=200, choices=(("Hospital", "Hospital"), ("Home", "Home"), ("Others", "Others")),  null=True, blank=True)
     baby_name = models.CharField(max_length=200, blank=True, null=True)
     father_name = models.CharField(max_length=200, blank=True, null=True)

@@ -18,3 +18,5 @@ admin.site.register(Appointment)
 admin.site.register(ChildFirstAttendence)
 admin.site.register(ChildMonitoringAttendance)
 admin.site.register(ChildVaccineInfo)
+admin.site.register(ChildWeight)
+

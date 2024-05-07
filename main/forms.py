@@ -100,11 +100,11 @@ class PregnancyForm(forms.ModelForm):
             'baby_name': forms.TextInput(attrs={'class': 'form-control'}),
             'gender': forms.TextInput(attrs={'class': 'form-control'}),
             'father_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'birth_place': forms.TextInput(attrs={'class': 'form-control'}),
+            'birth_place': forms.Select(attrs={'class': 'form-select'}),
             'residence': forms.TextInput(attrs={'class': 'form-control'}),
-            'birth_weight': forms.NumberInput(attrs={'class': 'form-control'}),
+            'birth_weight': forms.TextInput(attrs={'class': 'form-control'}),
             'pregnancy_number': forms.NumberInput(attrs={'class': 'form-control'}),
-            'child_number': forms.NumberInput(attrs={'class': 'form-control'}),
+            'child_number': forms.TextInput(attrs={'class': 'form-control'}),
             'date_of_birth': forms.TextInput(attrs={'class': 'form-control'}),
             
         }

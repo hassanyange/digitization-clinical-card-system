@@ -149,6 +149,7 @@ def patient(request, id):
         else:
             messages.error(request, 'Pregnance not added')
             return redirect(patient, id)
+            
 
     context = {'patient': patienty, 'pregnance_form': pregnance_form}
     return render(request, 'patient.html', context)
@@ -308,7 +309,7 @@ def appointments(request):
             password = request.POST.get('password')
             if User.objects.filter(username=username).exists():
                 messages.error(request, 'User already exists')
-                return redirect(appoints)
+                return redirect(appointments)
             user = User.objects.create_user(
                 username=username, email=username, password=password)
             user.save()
@@ -316,7 +317,7 @@ def appointments(request):
             data.user = user
             data.save()
             messages.success(request, 'Appointment added successfully')
-            return redirect(researchers)
+            return redirect(appointments)
     context = {'appointments': appointments_list, 'form': form}
     return render(request, 'appointments.html', context)
 
@@ -343,10 +344,9 @@ def delete_appointment(request, id):
 
 
 
-
 def pregnance(request, id):
     pregnancey = get_object_or_404(Pregnancy, id=id)
-    
+
     # Handling child monitoring forms
     if request.method == "POST":
         # Child first attendance form
@@ -388,7 +388,14 @@ def pregnance(request, id):
     first_tm, _ = FirstTimePatientInfo.objects.get_or_create(pregnancy=pregnancey)
     previous_tm, _ = PreviousPregnancyInfo.objects.get_or_create(pregnancy=pregnancey)
     labaratory_tm, _ = LaboratoryMeasurement.objects.get_or_create(pregnancy=pregnancey)
-    attendance_tm, _ = AttendanceReport.objects.get_or_create(pregnancy=pregnancey)    
+    
+    try:
+        attendance_tm = AttendanceReport.objects.get(pregnancy=pregnancey)
+    except AttendanceReport.DoesNotExist:
+        attendance_tm = AttendanceReport.objects.create(pregnancy=pregnancey)
+    except AttendanceReport.MultipleObjectsReturned:
+        attendance_tm = AttendanceReport.objects.filter(pregnancy=pregnancey).first()
+    
     first_pregnance_form = FirstTimePatientInfoForm(instance=first_tm)
     previous_pregnancies_form = PreviousPregnancyInfoForm(instance=previous_tm)
     labaratory_info_form = LaboratoryMeasurementForm(instance=labaratory_tm)
