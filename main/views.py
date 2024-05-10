@@ -454,4 +454,14 @@ def child_data(request, id):
 
 
 def reports(request):
-    return render(request, 'report.html')
+    pregnancies = Pregnancy.objects.all()
+    attendance_reports = AttendanceReport.objects.all()
+    
+    # Perform any processing or calculations on the data here
+    
+    context = {
+        'pregnancies': pregnancies,
+        'attendance_reports': attendance_reports,
+        # Add any other processed data you want to pass to the template
+    }
+    return render(request, 'report.html', context)

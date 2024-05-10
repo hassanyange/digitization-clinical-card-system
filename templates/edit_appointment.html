@@ -2,16 +2,12 @@
 
 {% block content %}
     {% include "snippets/navbar.html" %}
-
     <div class="container-fluid page-body-wrapper">
-        <div class="row">
-            <div class="col-lg-3">
-                {% include "snippets/sidebar.html" %}
-            </div>
-
-            <div class="col-lg-9">
-                <div class="main-panel">
-                    <div class="content-wrapper">
+        {% include "snippets/sidebar.html" %}
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row">
+                    <div class="col-md-12 ">
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">Edit Appointment</h4>
@@ -23,9 +19,9 @@
                             </div>
                         </div>
                     </div>
-                    {% include "snippets/footer.html" %}
                 </div>
             </div>
+            {% include "snippets/footer.html" %}
         </div>
-    </div>
+    </div>  
 {% endblock content %}
