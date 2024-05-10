@@ -39,6 +39,8 @@ urlpatterns = [
     path('patient/pregnance/<str:id>/', views.pregnance, name='pregnance'),
     path('child-data/<str:id>/', views.child_data, name='child-data'),
    
+   
+    path('reports/', views.reports, name='reports'),
     
     
 ]
