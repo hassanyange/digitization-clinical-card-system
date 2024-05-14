@@ -59,8 +59,10 @@
                                     </div>
                                     {% endfor %}
                                     <br>
+                                    {% if not request.user.patient %}
+
                                     <button type="submit" name="child_weight_form_save" class="btn btn-primary">SAVE</button>
-                                       
+                                       {% endif %}
                                     
                                  </div>
                               </form>

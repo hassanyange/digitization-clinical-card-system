@@ -22,9 +22,14 @@
                         <div class="card-body">
                            <h4 class="card-title">Patients</h4>
                            <!-- Button trigger modal -->
+                           
+                           {% if not request.user.patient %}
                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addPatientModal">
-                           Add Patient
-                           </button>
+                              Add Patient
+                              </button>
+                           {% endif %}
+                              
+                          
                            {% include "snippets/messages.html" %}
                            <div class="table-responsive">
                               <table class="table table-hover">
@@ -52,9 +57,11 @@
                                        <td>{{ patient.email }}</td>
                                        <td>
                                           <a href="{% url 'patient' patient.id %}"><i class="fa-regular fa-eye"></i></a>
+                                          {% if not request.user.patient %}
+
                                           <a href="{% url 'edit_patient' patient.id %}" class="btn btn-warning">Edit</a> 
                                           <a href="{% url 'delete_patient' patient.id %}" class="btn btn-danger">Delete</a>
-                                        
+                                        {% endif %}
                                        </td>
                                     </tr>
                                     {% endfor %}
