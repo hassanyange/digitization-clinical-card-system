@@ -61,17 +61,10 @@ class AppointmentForm(forms.ModelForm):
         exclude = ['user']
 
         widgets = {
-            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control'}),
-            'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
-            'address': forms.TextInput(attrs={'class': 'form-control'}),
-            'password': forms.PasswordInput(render_value=True, attrs={'class': 'form-control'}),
+            'patient': forms.Select(attrs={'class': 'form-select'}),
             'problem': forms.TextInput(attrs={'class': 'form-control'}),
-            'appointment_with': forms.TextInput(attrs={'class': 'form-control'}),
-            'appointment_date': forms.TextInput(attrs={'class': 'form-control'}),
-            'status': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-          
+            'appointment_with': forms.Select(attrs={'class': 'form-select'}),
+            'appointment_date': forms.DateTimeInput(attrs={'class': 'form-control'}),          
         }
 
 

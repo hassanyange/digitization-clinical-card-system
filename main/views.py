@@ -305,19 +305,12 @@ def appointments(request):
     if request.method == 'POST':
         form = AppointmentForm(request.POST)
         if form.is_valid():
-            username = request.POST.get('email')
-            password = request.POST.get('password')
-            if User.objects.filter(username=username).exists():
-                messages.error(request, 'User already exists')
-                return redirect(appointments)
-            user = User.objects.create_user(
-                username=username, email=username, password=password)
-            user.save()
             data = form.save(commit=False)
-            data.user = user
             data.save()
             messages.success(request, 'Appointment added successfully')
             return redirect(appointments)
+        else:
+            messages.error(request, 'Appointment not added')
     context = {'appointments': appointments_list, 'form': form}
     return render(request, 'appointments.html', context)
 

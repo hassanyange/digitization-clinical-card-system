@@ -48,15 +48,8 @@ class Researcher(models.Model):
         return self.name
 
 class Appointment(models.Model):
-    user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    email = models.EmailField(max_length=200, blank=True, null=True)
-    phone_number = models.CharField(max_length=200, blank=True, null=True)
-    password= models.CharField(max_length=200, blank=True, null=True)
-    address = models.CharField(max_length=200, blank=True, null=True)
-    patient_registration_number = models.CharField(max_length=40)
-    appointment_with =models.CharField(max_length=50)
+    patient = models.OneToOneField('Patient', null=True, blank=True, on_delete=models.CASCADE)
+    appointment_with = models.ForeignKey('Doctor', null=True, blank=True, on_delete=models.CASCADE)
     appointment_date = models.DateField(blank=True)
     problem = models.CharField(max_length=250)
     created_at = models.DateTimeField(auto_now_add=True)
