@@ -442,7 +442,7 @@ def child_data(request, id):
             messages.success(request, 'Child weight saved successfully')
             return redirect('child-data', id=id)
 
-    context = {"weighs": child_weight, "pregnancy": pregnancy, 'form': form, 'weight_data_json': json_data}
+    context = {"weight": child_weight, "pregnancy": pregnancy, 'form': form, 'weight_data_json': json_data}
     return render(request, 'child_data.html', context)
 
 
