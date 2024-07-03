@@ -13784,10 +13784,12 @@ dl {
 
 .auth .brand-logo {
   margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+
 }
   .auth .brand-logo img {
     width: 100px;
-    padding-left: 10rem;
   
   }
 
