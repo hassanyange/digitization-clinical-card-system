@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.core import serializers
+from django.urls import reverse
 
 from main.form import DoctorForm
 from .models import *
@@ -21,10 +22,8 @@ def home(request):
     print(user)
     try:
         patient = Patient.objects.get(user=user)
-        print("patient foundddddd")
-        return redirect('patients')
+        return redirect(patients)
     except Patient.DoesNotExist:
-        print("Patient dont exist")
         pass
 
     total_appointments = Appointment.objects.count()
@@ -49,12 +48,12 @@ def home(request):
 
 def signin(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(username=username, password=password)
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect(home)
+            return redirect(reverse('home'))
         else:
             messages.error(request, 'Invalid credentials')
             return redirect(signin)
@@ -83,7 +82,7 @@ def signup(request):
 def logout_user(request):
     logout(request)
     messages.info(request, "Successful logged out")
-    return redirect(home)
+    return redirect(signin)
 
 
 def profile(request):
@@ -442,7 +441,7 @@ def child_data(request, id):
             messages.success(request, 'Child weight saved successfully')
             return redirect('child-data', id=id)
 
-    context = {"weighs": child_weight, "pregnancy": pregnancy, 'form': form, 'weight_data_json': json_data}
+    context = {"weight": child_weight, "pregnancy": pregnancy, 'form': form, 'weight_data_json': json_data}
     return render(request, 'child_data.html', context)
 
 
