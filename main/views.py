@@ -5,10 +5,12 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
-from django.core import serializers
 from django.urls import reverse
 from django.db.models import Q
+from .models import *
+from .forms import ChildWeightForm
+import json
+
 
 from main.form import DoctorForm
 from .models import *
@@ -55,14 +57,14 @@ def signin(request):
 
         if '@' in username_or_email:
             try:
-                user = User.objects.get(email=username_or_email).username
+                username = User.objects.get(email=username_or_email).username
             except User.DoesNotExist:
                 messages.warning(request, 'Invalid credentials!')
                 return redirect(signin)
         else:
-            user = username_or_email
+            username = username_or_email
 
-        user = authenticate(request, username=username_or_email, password=password)
+        user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
             return redirect(reverse('home'))
@@ -359,6 +361,54 @@ def delete_appointment(request, id):
 def pregnance(request, id):
     pregnancey = get_object_or_404(Pregnancy, id=id)
 
+    # form instance for mother monitoring
+    first_time_patient_instance, _ = FirstTimePatientInfo.objects.get_or_create(pregnancy=pregnancey)
+    first_pregnance_form = FirstTimePatientInfoForm(instance=first_time_patient_instance)
+
+    previous_pregnancies_instance, _ = PreviousPregnancyInfo.objects.get_or_create(pregnancy=pregnancey)
+    previous_pregnancies_form = PreviousPregnancyInfoForm(instance=previous_pregnancies_instance)
+
+    labaratory_instance, _ = LaboratoryMeasurement.objects.get_or_create(pregnancy=pregnancey)
+    labaratory_info_form = LaboratoryMeasurementForm(instance=labaratory_instance)
+
+    attendance_instance, _ = AttendanceReport.objects.get_or_create(pregnancy=pregnancey)
+    attendance_report_form = AttendanceReportForm(instance=attendance_instance)
+
+    # handling patient monitoring forms
+    if request.method == "POST":
+        if 'first_pregnancy_form_save' in request.POST:
+            first_time_patient_instance, _ = FirstTimePatientInfo.objects.get_or_create(pregnancy=pregnancey)
+            first_pregnance_form = FirstTimePatientInfoForm(request.POST, instance=first_time_patient_instance)
+            if first_pregnance_form.is_valid():
+                first_pregnance_form.save()
+                messages.success(request, 'First time patient info saved successfully')
+                return redirect('pregnance', id)
+        
+        elif 'previous_pregnancies_form_save' in request.POST:
+            previous_pregnancies_instance, _ = PreviousPregnancyInfo.objects.get_or_create(pregnancy=pregnancey)
+            previous_pregnancies_form = PreviousPregnancyInfoForm(request.POST, instance=previous_pregnancies_instance)
+            if previous_pregnancies_form.is_valid():
+                previous_pregnancies_form.save()
+                messages.success(request, 'Previous pregnancies info saved successfully')
+                return redirect('pregnance', id)
+        
+        elif 'labaratory_info_form_save' in request.POST:
+            labaratory_instance, _ = LaboratoryMeasurement.objects.get_or_create(pregnancy=pregnancey)
+            labaratory_info_form = LaboratoryMeasurementForm(request.POST, instance=labaratory_instance)
+            if labaratory_info_form.is_valid():
+                labaratory_info_form.save()
+                messages.success(request, 'Labaratory info saved successfully')
+                return redirect('pregnance', id)
+        
+        elif 'attendance_report_form_save' in request.POST:
+            attendance_instance, _ = AttendanceReport.objects.get_or_create(pregnancy=pregnancey)
+            attendance_report_form = AttendanceReportForm(request.POST, instance=attendance_instance)
+            if attendance_report_form.is_valid():
+                attendance_report_form.save()
+                messages.success(request, 'Attendance report saved successfully')
+                return redirect('pregnance', id)
+
+
     # Form instances for child monitoring
     first_attendance_instance, _ = ChildFirstAttendence.objects.get_or_create(pregnancy=pregnancey)
     first_attendance_form = ChildFirstAttendenceForm(instance=first_attendance_instance)
@@ -396,23 +446,6 @@ def pregnance(request, id):
                 messages.success(request, 'Attendance saved successfully')
                 return redirect('pregnance', id)
 
-    # Form instances for pregnancy related info
-    first_tm, _ = FirstTimePatientInfo.objects.get_or_create(pregnancy=pregnancey)
-    previous_tm, _ = PreviousPregnancyInfo.objects.get_or_create(pregnancy=pregnancey)
-    labaratory_tm, _ = LaboratoryMeasurement.objects.get_or_create(pregnancy=pregnancey)
-    
-    try:
-        attendance_tm = AttendanceReport.objects.get(pregnancy=pregnancey)
-    except AttendanceReport.DoesNotExist:
-        attendance_tm = AttendanceReport.objects.create(pregnancy=pregnancey)
-    except AttendanceReport.MultipleObjectsReturned:
-        attendance_tm = AttendanceReport.objects.filter(pregnancy=pregnancey).first()
-    
-    first_pregnance_form = FirstTimePatientInfoForm(instance=first_tm)
-    previous_pregnancies_form = PreviousPregnancyInfoForm(instance=previous_tm)
-    labaratory_info_form = LaboratoryMeasurementForm(instance=labaratory_tm)
-    attendance_report_form = AttendanceReportForm(instance=attendance_tm)
-
     # Set up context
     context = {
         'pregnancey': pregnancey,
@@ -427,12 +460,6 @@ def pregnance(request, id):
     return render(request, 'pregnance.html', context)
 
     
-
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import Pregnancy, ChildWeight
-from .forms import ChildWeightForm
-from django.contrib import messages
-import json
 
 def child_data(request, id):
     pregnancy = get_object_or_404(Pregnancy, id=id)

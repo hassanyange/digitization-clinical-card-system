@@ -113,6 +113,8 @@ class BootstrapFormMixin(forms.ModelForm):
             else:
                 field.widget.attrs.update({'class': 'form-control'})
 
+
+
 class PreviousPregnancyInfoForm(BootstrapFormMixin, forms.ModelForm):
     class Meta:
         model = PreviousPregnancyInfo
@@ -131,12 +133,10 @@ class LaboratoryMeasurementForm(BootstrapFormMixin, forms.ModelForm):
 class AttendanceReportForm(BootstrapFormMixin, forms.ModelForm):
     class Meta:
         model = AttendanceReport
-        exclude = ['pregnacy']
+        exclude = ['pregnancy']
 
 
 # NEW FORMS NEW FORMS 
-
-
 class ChildFirstAttendenceForm(BootstrapFormMixin, forms.ModelForm):
     class Meta:
         model = ChildFirstAttendence
@@ -150,11 +150,7 @@ class ChildVaccineInfoForm(BootstrapFormMixin, forms.ModelForm):
 class ChildMonitoringAttendanceForm(BootstrapFormMixin, forms.ModelForm):
     class Meta:
         model = ChildMonitoringAttendance
-        exclude = ['pregnacy']
-
-
-
-
+        exclude = ['pregnancy']
 
 
 class ChildWeightForm(forms.ModelForm):
