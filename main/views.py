@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.core import serializers
 from django.urls import reverse
+from django.db.models import Q
 
 from main.form import DoctorForm
 from .models import *
@@ -48,14 +49,24 @@ def home(request):
 
 def signin(request):
     if request.method == 'POST':
-        username = request.POST["username"]
+        username_or_email = request.POST["username"]
         password = request.POST["password"]
-        user = authenticate(request, username=username, password=password)
+
+        if '@' in username_or_email:
+            try:
+                user = User.objects.get(email=username_or_email).username
+            except User.DoesNotExist:
+                messages.warning(request, 'Invalid credentials!')
+                return redirect(signin)
+        else:
+            user = username_or_email
+
+        user = authenticate(request, username=username_or_email, password=password)
         if user is not None:
             login(request, user)
             return redirect(reverse('home'))
         else:
-            messages.error(request, 'Invalid credentials')
+            messages.warning(request, 'Invalid credentials!')
             return redirect(signin)
 
     return render(request, 'signin.html')
@@ -63,25 +74,35 @@ def signin(request):
 
 def signup(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        # check if user already exists
-        user = User.objects.filter(username=username).exists()
-        if user:
-            messages.info(request, 'User already exists')
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password']
+        confirm_pass = request.POST['confirm-password']
+        agree_terms = request.POST.get('agree_terms', False)
+
+        if not agree_terms:
+            messages.info(request, 'You must agree to the terms and conditions!')
+            return render(request, 'signup.html')
+
+        if password != confirm_pass:
+            messages.info(request, 'Password not match!')
+            return render(request, 'signup.html')
+        
+        if User.objects.filter(Q(username=username) | Q(email=email)).exists():
+            messages.info(request, 'User already exists!')
             return render(request, 'signup.html')
         else:
             user = User.objects.create_user(
-                username=username, password=password)
+                email=email, username=username, password=password)
             user.save()
-            messages.info(request, 'User created successful')
-            return redirect(home)
+            messages.success(request, 'User created successful')
+            return redirect(signin)
     return render(request, 'signup.html')
 
 
 def logout_user(request):
     logout(request)
-    messages.info(request, "Successful logged out")
+    messages.info(request, "Successful logged out!")
     return redirect(signin)
 
 

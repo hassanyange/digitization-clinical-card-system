@@ -1,7 +1,12 @@
 {% if messages %}
         {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}" role="alert">
+            <div class="alert alert-{{ message.tags }} text-center" id='alert-msg', role="alert">
                 {{ message }}
             </div>
+            <script>
+                setTimeout(function() {
+                    document.getElementById("alert-msg").remove();
+                }, 2000); 
+            </script>
         {% endfor %}
     {% endif %}

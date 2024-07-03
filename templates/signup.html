@@ -1,0 +1,52 @@
+{% extends "snippets/base.html" %}
+{% load static %}
+{% block content %}
+    
+    <div class="container-scroller">
+      <div class="container-fluid page-body-wrapper full-page-wrapper">
+        <div class="content-wrapper d-flex align-items-center auth">
+          <div class="row flex-grow">
+            <div class="col-lg-4 mx-auto">
+              <div class="auth-form-light p-5 shaddowing">
+                <div class="brand-logo">
+                  <img src="../static/assets/images/favicon.png" class="h-auto w-auto">
+                </div>
+                {% include "snippets/messages.html" %}
+                <h4 class="text-center mb-5 text-black font-weight-bold">DIGITAL CLINICAL CARDS SYSTEM</h4>
+                <h6 class="font-weight-medium text-black font-weight-bold">Sign up to continue.</h6>
+                <form class="pt-3" action="" method="POST" >
+                    {% csrf_token %}
+                  <div class="form-group">
+                    <input type="text" name="username" class="form-control form-control-lg rounded-3" id="username" placeholder="Username">
+                  </div>
+                  <div class="form-group">
+                    <input type="email" name="email" class="form-control form-control-lg rounded-3" id="email" placeholder="Email">
+                  </div>
+                  <div class="form-group">
+                    <input type="password" name="password" class="form-control form-control-lg rounded-3" id="password" placeholder="Password">
+                  </div>
+                  <div class="form-group">
+                    <input type="password" name="confirm-password" class="form-control form-control-lg rounded-3" id="confirm-password" placeholder="Confirm Password">
+                  </div>
+                  <div class="mt-3 justify-content-md-around padded">
+                    <button  type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN UP</button>
+                  </div>
+                  <div class="mt-2 align-items-center">
+                    <div class="form-check">
+                      <label class="form-check-label text-muted">
+                        <input type="checkbox" name="agree_terms" class="form-check-input" id="agree_terms"> I agree to terms and conditions </label>
+                    </div>
+                    <a href="/signin" class="auth-link text-black">Already have an account? Sign in instead.</a>
+                  </div> 
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- content-wrapper ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    
+    
+    {% endblock %}
