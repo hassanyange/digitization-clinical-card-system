@@ -47,6 +47,7 @@ def home(request):
     return render(request, 'index.html', context)
 
 
+
 def signin(request):
     if request.method == 'POST':
         username_or_email = request.POST["username"]
@@ -68,7 +69,6 @@ def signin(request):
         else:
             messages.warning(request, 'Invalid credentials!')
             return redirect(signin)
-
     return render(request, 'signin.html')
 
 

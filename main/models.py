@@ -55,8 +55,9 @@ class Appointment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    
     def __str__(self):
-        return self.first_name
+        return f"Appointment with {self.appointment_with} on {self.appointment_date}"
 
 class Patient(models.Model):
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
@@ -68,7 +69,7 @@ class Patient(models.Model):
     phone_number = models.CharField(max_length=15)
     email = models.EmailField()
     password = models.CharField(max_length=50)
-    image = models.ImageField(upload_to='static/assets/images', null=True, blank=True)
+    image = models.ImageField(upload_to='media', null=True, blank=True)
     husband_name = models.CharField(max_length=200, blank=True, null=True)
     height = models.CharField(max_length=110, null=True, choices=height_choices)
     occupation = models.CharField(max_length=200, blank=True, null=True)
