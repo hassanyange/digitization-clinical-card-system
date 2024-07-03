@@ -46,17 +46,27 @@ def home(request):
     return render(request, 'index.html', context)
 
 
+
 def signin(request):
     if request.method == 'POST':
-        username = request.POST["username"]
+        email = request.POST["email"]
         password = request.POST["password"]
+        try:
+            username = User.objects.get(email=email).username
+        except User.DoesNotExist:
+            messages.error(request, 'Invalid email')
+            return redirect('signin')
+        
+        print(f"Attempting login with email: {email} and password: {password}")  # Debug print
         user = authenticate(request, username=username, password=password)
         if user is not None:
+            print("Authentication successful")  # Debug print
             login(request, user)
             return redirect(reverse('home'))
         else:
+            print("Authentication failed")  # Debug print
             messages.error(request, 'Invalid credentials')
-            return redirect(signin)
+            return redirect('signin')
 
     return render(request, 'signin.html')
 
