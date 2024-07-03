@@ -49,23 +49,27 @@
                 <div class="tab-content tab-transparent-content">
                   <div class="tab-pane fade show active" id="business-1" role="tabpanel" aria-labelledby="business-tab">
                     <div class="row">
+                      
                       <div class="col-xl-3 col-lg-6 col-sm-6 grid-margin stretkch-card">
-                        <div class="card bg-danger">
-                          <div class="card-body text-center">
-                            <h5 class="mb-2 text-dark font-weight-normal">Patients</h5>
-                            <h2 class="mb-4 text-dark font-weight-bold">{{total_patients}}</h2>
+                        <a href="/patients" style="text-decoration: none;">
+                          <div class="card bg-danger">
+                            <div class="card-body text-center">
+                              <h5 class="mb-2 text-dark font-weight-normal">Patients</h5>
+                              <h2 class="mb-4 text-dark font-weight-bold">{{total_patients}}</h2>
+                            </div>
                           </div>
-                        </div>
+                        </a>
                       </div>
                       
                       <div class="col-xl-3  col-lg-6 col-sm-6 grid-margin ">
-                        <div class="card bg-secondary">
-                          <div class="card-body text-center">
-                            <h5 class="mb-2 text-dark font-weight-normal">Staffs</h5>
-                            <h2 class="mb-4 text-dark font-weight-bold">{{total_doctors}}</h2>
-                           
+                        <a href="/doctors" style="text-decoration: none;">
+                          <div class="card bg-secondary">
+                            <div class="card-body text-center">
+                              <h5 class="mb-2 text-dark font-weight-normal">Staffs</h5>
+                              <h2 class="mb-4 text-dark font-weight-bold">{{total_doctors}}</h2>
+                            </div>
                           </div>
-                        </div>
+                        </a>
                       </div>
                         
                       <!-- <div class="col-xl-3  col-lg-6 col-sm-6 grid-margin ">
@@ -100,32 +104,37 @@
                       </div> -->
 
                       <div class="col-xl-3  col-lg-6 col-sm-6 grid-margin ">
-                        <div class="card">
-                          <div class="card-body text-center">
-                            <h5 class="mb-2 text-dark font-weight-normal">Researchers</h5>
-                            <h2 class="mb-4 text-dark font-weight-bold">{{total_researchers}}</h2>
-                           
+                        <a href="/researchers" style="text-decoration: none;">
+                          <div class="card">
+                            <div class="card-body text-center">
+                              <h5 class="mb-2 text-dark font-weight-normal">Researchers</h5>
+                              <h2 class="mb-4 text-dark font-weight-bold">{{total_researchers}}</h2>
+                            </div>
                           </div>
-                        </div>
-                      </div>
-                      <div class="col-xl-3 col-lg-6 col-sm-6 grid-margin ">
-                        <div class="card bg-primary">
-                          <div class="card-body text-center">
-                            <h5 class="mb-2 text-dark  font-weight-normal">Childs</h5>
-                            <h2 class="mb-4 text-dark font-weight-bold">{{totol_childs}}</h2>
-                      
-                          </div>
-                        </div>
+                        </a>
                       </div>
 
                       <div class="col-xl-3 col-lg-6 col-sm-6 grid-margin ">
-                        <div class="card bg-warning">
-                          <div class="card-body text-center">
-                            <h5 class="mb-2 text-dark font-weight-normal">Appointments</h5>
-                            <h2 class="mb-4 text-dark font-weight-bold">{{total_appointments}}</h2>
-                      
+                        <a href="/patients" style="text-decoration: none;">
+                          <div class="card bg-primary">
+                            <div class="card-body text-center">
+                              <h5 class="mb-2 text-dark  font-weight-normal">Childs</h5>
+                              <h2 class="mb-4 text-dark font-weight-bold">{{totol_childs}}</h2>
+                        
+                            </div>
                           </div>
-                        </div>
+                        </a>
+                      </div>
+
+                      <div class="col-xl-3 col-lg-6 col-sm-6 grid-margin ">
+                        <a href="/appointments" style="text-decoration: none;">
+                          <div class="card bg-warning">
+                            <div class="card-body text-center">
+                              <h5 class="mb-2 text-dark font-weight-normal">Appointments</h5>
+                              <h2 class="mb-4 text-dark font-weight-bold">{{total_appointments}}</h2>
+                            </div>
+                          </div>
+                        </a>
                       </div>
 
                     </div>
