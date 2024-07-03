@@ -6,64 +6,64 @@
     <!-- partial -->
 
     <div class="container-fluid page-body-wrapper">
-        <div class="row">
-            <!-- partial:partials/_sidebar.html -->
-            <div class="col-lg-3">
-                {% include "snippets/sidebar.html" %}
-            </div>
-            <!-- partial -->
 
-            <div class="col-lg-9">
+                {% include "snippets/sidebar.html" %}
+
                 <div class="main-panel">
                     <div class="content-wrapper">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between mb-4">
-                                    <h4 class="card-title">Appointments</h4>
-                                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addAppointmentModal">Add Appointment</button>
-                                </div>
-                                <div class="table-responsive">
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>Patient</th>
-                                                <th>Problem</th>
-                                                <th>Appointment With</th>
-                                                <th>Appointment Date</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for appointment in appointments %}
-                                                <tr>
-                                                    <td>{{ appointment.patient }}</td>
-                                                    <td>{{ appointment.problem }}</td>
-                                                    <td>{{ appointment.appointment_with }}</td>
-                                                    <td>{{ appointment.appointment_date }}</td>
-                                                    <td>{{ appointment.get_status_display }}</td> <!-- Assuming you have a status field with choices -->
-                                                    <td>
-                                                       <a href="{% url 'appointment' appointment.id %}"><i class="fa-regular fa-eye"></i></a>
-                                                       <a href="{% url 'edit_appointment' appointment.id %}" class="btn btn-warning">Edit</a> 
-                                                       <a href="{% url 'delete_appointment' appointment.id %}" class="btn btn-danger">Delete</a> 
-                                                    </td>
-                                                </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-lg-12 grid-margin stretch-card">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between mb-4">
+                                                <h4 class="card-title">Appointments</h4>
+                                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addAppointmentModal">Add Appointment</button>
+                                            </div>
+                                            <div class="table-responsive">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Patient</th>
+                                                            <th>Problem</th>
+                                                            <th>Appointment With</th>
+                                                            <th>Appointment Date</th>
+                                                            <th>Status</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for appointment in appointments %}
+                                                            <tr>
+                                                                <td>{{ appointment.patient }}</td>
+                                                                <td>{{ appointment.problem }}</td>
+                                                                <td>{{ appointment.appointment_with }}</td>
+                                                                <td>{{ appointment.appointment_date }}</td>
+                                                                <td>{{ appointment.get_status_display }}</td> <!-- Assuming you have a status field with choices -->
+                                                                <td>
+                                                                   <a href="{% url 'appointment' appointment.id %}"><i class="fa-regular fa-eye"></i></a>
+                                                                   <a href="{% url 'edit_appointment' appointment.id %}" class="btn btn-warning">Edit</a> 
+                                                                   <a href="{% url 'delete_appointment' appointment.id %}" class="btn btn-danger">Delete</a> 
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                     </div>
                     <!-- content-wrapper ends -->
                     <!-- partial:partials/_footer.html -->
-                    {% include "snippets/footer.html" %}
                     <!-- partial -->
                 </div>
+
+                {% include "snippets/footer.html" %}
                 <!-- main-panel ends -->
             </div>
         </div>
-    </div>
 
     <!-- Modal -->
     <div class="modal fade" id="addAppointmentModal" tabindex="-1" aria-labelledby="addAppointmentModalLabel" aria-hidden="true">
